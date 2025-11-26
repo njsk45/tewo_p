@@ -1,4 +1,4 @@
-eWo-P is a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale (POS) system. That is, it is a POS that can be run on different platforms and easily adapted for the user.
+TeWo-P is a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale (POS) system. That is, it is a POS that can be run on different platforms and easily adapted for the user.
 
 An ambitious project that aims to be an alternative to traditional POS systems, featuring modern functionalities and a clean, simple design.
 

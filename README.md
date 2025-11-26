@@ -10,7 +10,7 @@ OBJECTIVES
 
        - To have both a local and a cloud database.
 
-       - To feature a free-use version which allows sales processing and inventory management with limitations, but including the basic functionalities of a traditional POS.
+       - To feature a free-use and opensource version which allows sales processing and inventory management with limitations, but including the basic functionalities of a traditional POS.
 
        - To feature a premium-use version which allows sales processing and inventory management without limitations, but including advanced functionalities of a traditional POS.
 

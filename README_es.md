@@ -12,7 +12,7 @@ Un proyecto ambicioso que pretende ser una alternativa a los puntos de venta tra
 
         - Tener una base de datos local y en la nube
 
-        - Contar con una versión de uso libre la cual permita la realización de ventas y la gestión de inventario con limitaciones, pero con funcionalidades básicas de un punto de venta tradicional.
+        - Contar con una versión codigo abierto y de uso libre la cual permita la realización de ventas y la gestión de inventario con limitaciones, pero con funcionalidades básicas de un punto de venta tradicional.
 
         - Contar con una versión de uso premium la cual permita la realización de ventas y la gestión de inventario sin limitaciones, pero con funcionalidades avanzadas de un punto de venta tradicional.
 

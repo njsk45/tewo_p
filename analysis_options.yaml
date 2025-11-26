@@ -1,0 +1,9 @@
+include: package:flutter_lints/flutter.yaml
+
+dependencies:
+  drift: ^2.13.0 # Core de la librería Drift/SQLite
+  sqlite3_flutter_libs: ^2.1.0 # Implementación de SQLite para Flutter (Multiplataforma)
+
+dev_dependencies:
+  build_runner: ^2.4.6 # Herramienta para generar código Dart
+  drift_dev: ^2.13.0 # Herramienta para generar el código de las tablas

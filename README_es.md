@@ -1,7 +1,6 @@
 # tewo_p
 
-TeWo-P es un punto de venta Multi^2-PF (Multiplataforma-Multifuncional)
-Es decir, es un punto de venta que puede ser ejecutado en diferentes plataformas y adecuado de manera fácil para el usuario.
+TeWo-P es un punto de venta Multi^2-PF (Multiplataforma-Multifuncional). En otras palabras, es un punto de venta que puede ser ejecutado en diferentes plataformas y adecuado de manera fácil para todo tipo de usuario.
 
 Un proyecto ambicioso que pretende ser una alternativa a los puntos de venta tradicionales, con funcionalidades modernas y un diseño limpio y sencillo.
 

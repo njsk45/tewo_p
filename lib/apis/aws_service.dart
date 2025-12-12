@@ -28,11 +28,33 @@ class AwsService {
       print('Warning: AWS Credentials are not fully set.');
     }
 
-    // Using simple alphanumeric credential provider for standard keys
-    // Note: Assuming AwsClientCredentials is the correct type based on previous errors.
-    // If not, we might need to adjust or import it.
+    print('[DEBUG] AwsService.init called with region: $_region');
 
-    _client = DynamoDB(region: _region, credentialsProvider: null);
+    // Using simple alphanumeric credential provider for standard keys
+    // Note: The error indicates the provider expects an argument (Client? client).
+    // We adjust the closure to accept it (and ignore it).
+
+    var provider;
+    if (accessKey != null && secretKey != null) {
+      print('[DEBUG] Creating provider with passed args');
+      provider = ({dynamic client}) async {
+        print('[DEBUG] Provider called with args');
+        return AwsClientCredentials(accessKey: accessKey, secretKey: secretKey);
+      };
+    } else if (_accessKey.isNotEmpty && _secretKey.isNotEmpty) {
+      print('[DEBUG] Creating provider with internal args');
+      provider = ({dynamic client}) async {
+        print('[DEBUG] Provider (internal) called');
+        return AwsClientCredentials(
+          accessKey: _accessKey,
+          secretKey: _secretKey,
+        );
+      };
+    } else {
+      print('[DEBUG] No credentials available for provider');
+    }
+
+    _client = DynamoDB(region: _region, credentialsProvider: provider);
   }
 
   /// Returns the configured DynamoDb client.
@@ -51,6 +73,20 @@ class AwsService {
       }
     }
     return _client!;
+  }
+
+  /// Checks if the connection to DynamoDB is valid by listing tables.
+  Future<bool> checkConnection() async {
+    print('[DEBUG] checkConnection called');
+    try {
+      await client.listTables();
+      print('[DEBUG] checkConnection success');
+      return true;
+    } catch (e) {
+      print('Connection check failed: $e');
+      print('[DEBUG] checkConnection error: $e');
+      return false;
+    }
   }
 
   /// Lists the tables in the connected DynamoDB account.

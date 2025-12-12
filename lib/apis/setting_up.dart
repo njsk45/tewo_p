@@ -1,0 +1,303 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:path_provider/path_provider.dart';
+import 'package:tewo_p/apis/aws_service.dart';
+import 'package:tewo_p/app_desktop/ui_desktop.dart';
+
+class SettingUpPage extends StatefulWidget {
+  const SettingUpPage({super.key});
+
+  @override
+  State<SettingUpPage> createState() => _SettingUpPageState();
+}
+
+class _SettingUpPageState extends State<SettingUpPage> {
+  // Navigation State
+  int _currentStep = 0; // 0: Role, 1: DB Selection, 2: Config
+
+  // Role Selection
+  bool _isAdmin = false;
+
+  // DB Selection
+  String? _selectedDb; // 'DynamoDB', 'LocalDB'
+
+  // AWS Form Controllers
+
+  final _accessKeyController = TextEditingController();
+  final _secretKeyController = TextEditingController();
+  final _regionController = TextEditingController();
+
+  bool _isTesting = false;
+  String _statusMessage = '';
+
+  // Encryption Key (Hardcoded as per plan)
+  final _key = encrypt.Key.fromUtf8(
+    'my32lengthsupersecretnooneknows1',
+  ); // 32 chars
+  final _iv = encrypt.IV.fromLength(16);
+
+  // Navigator Key to access navigation without context
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      navigatorKey: _navigatorKey,
+      home: Scaffold(
+        body: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 600),
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Setup', style: Theme.of(context).textTheme.headlineLarge),
+                const SizedBox(height: 48),
+                if (_currentStep == 0) _buildRoleSelection(),
+                if (_currentStep == 1) _buildDbSelection(),
+                if (_currentStep == 2) _buildConfigForm(),
+                const SizedBox(height: 24),
+                Text(
+                  _statusMessage,
+                  style: TextStyle(
+                    color: _statusMessage.contains('Success')
+                        ? Colors.green
+                        : Colors.red,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRoleSelection() {
+    return Column(
+      children: [
+        Text('Select Role', style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // User: Empty function
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 24,
+                ),
+              ),
+              child: const Text('User'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isAdmin = true;
+                  _currentStep = 1;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 24,
+                ),
+              ),
+              child: const Text('Admin'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDbSelection() {
+    return Column(
+      children: [
+        Text(
+          'Select Database System',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _selectedDb = 'DynamoDB';
+                  _currentStep = 2;
+                });
+              },
+              child: const Text('DynamoDB AWS'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _selectedDb = 'LocalDB';
+                  _currentStep = 2;
+                });
+              },
+              child: const Text('LocalDB'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        TextButton(
+          onPressed: () => setState(() => _currentStep = 0),
+          child: const Text('Back'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildConfigForm() {
+    if (_selectedDb == 'LocalDB') {
+      return Column(
+        children: [
+          const Text('Local Database Setup'),
+          const SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Empty function
+                },
+                child: const Text('Load Backup'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Empty function
+                },
+                child: const Text('Create DB'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          TextButton(
+            onPressed: () => setState(() => _currentStep = 1),
+            child: const Text('Back'),
+          ),
+        ],
+      );
+    }
+
+    // DynamoDB Form
+    return Column(
+      children: [
+        TextField(
+          controller: _accessKeyController,
+          decoration: const InputDecoration(labelText: 'Access Key'),
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: _secretKeyController,
+          decoration: const InputDecoration(labelText: 'Secret Key'),
+          obscureText: true,
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: _regionController,
+          decoration: const InputDecoration(labelText: 'Region'),
+        ),
+        const SizedBox(height: 24),
+        if (_isTesting)
+          const CircularProgressIndicator()
+        else
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: _testConnection,
+                child: const Text('Test Connection'),
+              ),
+              ElevatedButton(
+                onPressed: _saveAndContinue,
+                child: const Text('Save & Continue'),
+              ),
+            ],
+          ),
+        const SizedBox(height: 16),
+        TextButton(
+          onPressed: () => setState(() => _currentStep = 1),
+          child: const Text('Back'),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _testConnection() async {
+    print('[DEBUG] _testConnection UI triggered');
+    setState(() {
+      _isTesting = true;
+      _statusMessage = 'Testing connection...';
+    });
+
+    try {
+      final service = AwsService();
+      print(
+        '[DEBUG] Initializing service with: ${_accessKeyController.text}, ${_regionController.text}',
+      );
+      service.init(
+        accessKey: _accessKeyController.text,
+        secretKey: _secretKeyController.text,
+        region: _regionController.text,
+      );
+
+      final isConnected = await service.checkConnection();
+      print('[DEBUG] Connection result: $isConnected');
+
+      setState(() {
+        _statusMessage = isConnected
+            ? 'Success: Connected!'
+            : 'Error: Connection failed.';
+      });
+    } catch (e) {
+      print('[DEBUG] Exception in _testConnection: $e');
+      setState(() {
+        _statusMessage = 'Error: $e';
+      });
+    } finally {
+      setState(() => _isTesting = false);
+    }
+  }
+
+  Future<void> _saveAndContinue() async {
+    if (_statusMessage.contains('Success')) {
+      await _saveSettings();
+      if (mounted) {
+        _navigatorKey.currentState!.pushReplacement(
+          MaterialPageRoute(builder: (context) => const MainDesktop()),
+        );
+      }
+    } else {
+      setState(() {
+        _statusMessage = 'Please test connection successfully first.';
+      });
+    }
+  }
+
+  Future<void> _saveSettings() async {
+    final settings = {
+      'type': 'DynamoDB',
+
+      'accessKey': _accessKeyController.text,
+      'secretKey': _secretKeyController.text,
+      'region': _regionController.text,
+    };
+
+    final jsonString = jsonEncode(settings);
+    final encrypter = encrypt.Encrypter(encrypt.AES(_key));
+    final encrypted = encrypter.encrypt(jsonString, iv: _iv);
+
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/setts.json');
+    await file.writeAsString(encrypted.base64);
+  }
+}

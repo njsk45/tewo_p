@@ -34,23 +34,26 @@ void main() async {
     Widget initialScreen = const SettingUpPage();
 
     try {
-      final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/setts.json');
+      // final directory = await getApplicationDocumentsDirectory();
+      final file = File(
+        '/home/night/Documents/Code/Flutter/Testing/Calculadora/TeWo-PV/TeWo-P/tewo_p/testjson/setts.json',
+      );
       print('[DEBUG] Checking settings file at: ${file.path}');
 
       if (await file.exists()) {
         print('[DEBUG] Settings file exists');
         final content = await file.readAsString();
-        // Hardcoded key matching setting_up.dart
+        final envelope = jsonDecode(content);
+        final iv = encrypt.IV.fromBase64(envelope['iv']);
         final key = encrypt.Key.fromUtf8('my32lengthsupersecretnooneknows1');
-        final iv = encrypt.IV.fromLength(16);
         final encrypter = encrypt.Encrypter(encrypt.AES(key));
 
         final decrypted = encrypter.decrypt(
-          encrypt.Encrypted.fromBase64(content),
+          encrypt.Encrypted.fromBase64(envelope['content']),
           iv: iv,
         );
         final settings = jsonDecode(decrypted);
+
         print('[DEBUG] Settings decrypted: ${settings.keys}');
 
         if (settings['type'] == 'DynamoDB') {
@@ -66,9 +69,13 @@ void main() async {
           print('[DEBUG] verifying startup connection...');
           if (await service.checkConnection()) {
             print('[DEBUG] Startup connection success');
-            initialScreen = const MainDesktop();
+            initialScreen = const LoginDynamoDBPage();
           } else {
             print('[DEBUG] Startup connection failed');
+            initialScreen = MaterialApp(
+              theme: ThemeData.dark(),
+              home: const ConnectionErrorPage(),
+            );
           }
         }
       } else {

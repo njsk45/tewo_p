@@ -30,47 +30,43 @@ class _SettingUpPageState extends State<SettingUpPage> {
   final _regionController = TextEditingController();
 
   bool _isTesting = false;
-  String _statusMessage = '';
+  bool _isConnectionSuccessful = false;
 
   // Encryption Key (Hardcoded as per plan)
   final _key = encrypt.Key.fromUtf8(
     'my32lengthsupersecretnooneknows1',
-  ); // 32 chars
-  final _iv = encrypt.IV.fromLength(16);
-
-  // Navigator Key to access navigation without context
+  ); // 32 chars  // Navigator Key to access navigation without context
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark(),
       navigatorKey: _navigatorKey,
-      home: Scaffold(
-        body: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 600),
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Setup', style: Theme.of(context).textTheme.headlineLarge),
-                const SizedBox(height: 48),
-                if (_currentStep == 0) _buildRoleSelection(),
-                if (_currentStep == 1) _buildDbSelection(),
-                if (_currentStep == 2) _buildConfigForm(),
-                const SizedBox(height: 24),
-                Text(
-                  _statusMessage,
-                  style: TextStyle(
-                    color: _statusMessage.contains('Success')
-                        ? Colors.green
-                        : Colors.red,
-                  ),
+      home: Builder(
+        builder: (context) {
+          return Scaffold(
+            body: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 600),
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Setup',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    const SizedBox(height: 48),
+                    if (_currentStep == 0) _buildRoleSelection(),
+                    if (_currentStep == 1) _buildDbSelection(),
+                    if (_currentStep == 2) _buildConfigForm(context),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -156,7 +152,7 @@ class _SettingUpPageState extends State<SettingUpPage> {
     );
   }
 
-  Widget _buildConfigForm() {
+  Widget _buildConfigForm(BuildContext context) {
     if (_selectedDb == 'LocalDB') {
       return Column(
         children: [
@@ -214,7 +210,7 @@ class _SettingUpPageState extends State<SettingUpPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                onPressed: _testConnection,
+                onPressed: () => _testConnection(context),
                 child: const Text('Test Connection'),
               ),
               ElevatedButton(
@@ -232,11 +228,11 @@ class _SettingUpPageState extends State<SettingUpPage> {
     );
   }
 
-  Future<void> _testConnection() async {
+  Future<void> _testConnection(BuildContext context) async {
     print('[DEBUG] _testConnection UI triggered');
     setState(() {
       _isTesting = true;
-      _statusMessage = 'Testing connection...';
+      _isConnectionSuccessful = false;
     });
 
     try {
@@ -254,22 +250,36 @@ class _SettingUpPageState extends State<SettingUpPage> {
       print('[DEBUG] Connection result: $isConnected');
 
       setState(() {
-        _statusMessage = isConnected
-            ? 'Success: Connected!'
-            : 'Error: Connection failed.';
+        _isConnectionSuccessful = isConnected;
       });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              isConnected ? 'Connection Successful!' : 'Connection Failed!',
+            ),
+            backgroundColor: isConnected ? Colors.green : Colors.red,
+          ),
+        );
+      }
     } catch (e) {
       print('[DEBUG] Exception in _testConnection: $e');
       setState(() {
-        _statusMessage = 'Error: $e';
+        _isConnectionSuccessful = false;
       });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        );
+      }
     } finally {
       setState(() => _isTesting = false);
     }
   }
 
   Future<void> _saveAndContinue() async {
-    if (_statusMessage.contains('Success')) {
+    if (_isConnectionSuccessful) {
       await _saveSettings();
       if (mounted) {
         _navigatorKey.currentState!.pushReplacement(
@@ -277,9 +287,14 @@ class _SettingUpPageState extends State<SettingUpPage> {
         );
       }
     } else {
-      setState(() {
-        _statusMessage = 'Please test connection successfully first.';
-      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please test connection successfully first.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -293,11 +308,20 @@ class _SettingUpPageState extends State<SettingUpPage> {
     };
 
     final jsonString = jsonEncode(settings);
-    final encrypter = encrypt.Encrypter(encrypt.AES(_key));
-    final encrypted = encrypter.encrypt(jsonString, iv: _iv);
 
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/setts.json');
-    await file.writeAsString(encrypted.base64);
+    // Generate a random IV
+    final iv = encrypt.IV.fromLength(16);
+    final encrypter = encrypt.Encrypter(encrypt.AES(_key));
+    final encrypted = encrypter.encrypt(jsonString, iv: iv);
+
+    // Create the envelope
+    final envelope = {'iv': iv.base64, 'content': encrypted.base64};
+
+    // final directory = await getApplicationDocumentsDirectory();
+    final file = File(
+      '/home/night/Documents/Code/Flutter/Testing/Calculadora/TeWo-PV/TeWo-P/tewo_p/testjson/setts.json',
+    );
+    await file.writeAsString(jsonEncode(envelope));
+    print('[DEBUG] Settings saved (encrypted) to: ${file.path}');
   }
 }

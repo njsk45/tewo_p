@@ -1,22 +1,23 @@
-# TeWo-P is a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale (POS) system. It is a POS that can be run on different platforms and easily adapted for each kind of users.
+# TeWo-P
+- is a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale (POS) system. It is a POS that can be run on different platforms and easily adapted for each kind of users.
 
-An ambitious project that aims to be an alternative to traditional POS systems, featuring modern functionalities and a clean, simple design.
+- An ambitious project that aims to be an alternative to traditional POS systems, featuring modern functionalities and a clean, simple design.
 
 - OBJECTIVES
        
-       - To be a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale system.
+  - To be a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale system.
        
-         - To be a POS system accessible to the user on any device.
+  - To be a POS system accessible to the user on any device.
        
-       - To have both a local and a cloud database.
+  - To have both a local and a cloud database.
        
-       - To feature a free-use and opensource version which allows sales processing and inventory management with limitations, but including the basic functionalities of a traditional POS.
+  - To feature a free-use and opensource version which allows sales processing and inventory management with limitations, but including the basic functionalities of a traditional POS.
        
-       - To feature a premium-use version which allows sales processing and inventory management without limitations, but including advanced functionalities of a traditional POS.
+  - To feature a premium-use version which allows sales processing and inventory management without limitations, but including advanced functionalities of a traditional POS.
        
-       - To have versatility with APIs that allow integration with local, remote, and cloud DB models.
+  - To have versatility with APIs that allow integration with local, remote, and cloud DB models.
        
-       - To have periodic free updates: Security, functionality, and support.
+  - To have periodic free updates: Security, functionality, and support.
 
 - BASE FUNCTIONALITIES
 

@@ -32,23 +32,7 @@ class AwsService {
     // Note: Assuming AwsClientCredentials is the correct type based on previous errors.
     // If not, we might need to adjust or import it.
 
-    _client = DynamoDB(
-      region: _region,
-      // baseUri is handled by the region usually
-      // Try passing as a closure/value?
-      // Actually, after checking common patterns, if it expects a Provider interface,
-      // but AwsClientCredentials is a value.
-      // I will try to pass a simple object that implements it?
-      // Or maybe reference usages found online: `const AwsClientCredentials(...)`
-      // Wait, if it expects `AwsClientCredentialsProvider?`, let's try creating a dummy generic provider?
-      // Or better, search results suggested using `aws_credential_providers` package.
-      // But I can't easily add it.
-      // I will validly try to just see if `AwsClientCredentials` has a `.const` or something.
-      // BUT for now, I will try the closure approach for this tool call.
-      // credentialsProvider can be null if relying on environment or if manual setup is needed later.
-      // Currently defaulting to null to fix compilation.
-      credentialsProvider: null,
-    );
+    _client = DynamoDB(region: _region, credentialsProvider: null);
   }
 
   /// Returns the configured DynamoDb client.

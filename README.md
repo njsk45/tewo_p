@@ -84,7 +84,7 @@ An ambitious project that aims to be an alternative to traditional POS systems, 
        
         - Remote use from mobile devices with Employee limitations (Login and sales only)
 
--lib EXPLANATION:
+- lib EXPLANATION:
 
        - app_desktop: base functions for the desktop application
         

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:tewo_p/app_desktop/ui_desktop.dart';
 import 'package:tewo_p/app_movil/ui_movil.dart';
 import 'package:tewo_p/apis/setting_up.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'dart:convert';
 import 'package:tewo_p/apis/aws_service.dart';

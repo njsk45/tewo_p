@@ -1,0 +1,51 @@
+{
+    "helloWorld": "Hello World!",
+    "usersList": "Users List",
+    "next": "Next",
+    "previous": "Previous",
+    "searchUser": "Search User...",
+    "alias": "Alias",
+    "name": "Name",
+    "role": "Role",
+    "email": "Email",
+    "curp": "CURP",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteUserConfirm": "Are you sure you want to delete this user?",
+    "userDeleted": "User deleted successfully",
+    "editUser": "Edit User",
+    "save": "Save",
+    "cancel": "Cancel",
+    "noUsersFound": "No users found",
+    "errorFetchingUsers": "Error fetching users",
+    "@helloWorld": {
+        "description": "The conventional newborn programmer greeting"
+    },
+    "login": "Login",
+    "password": "Password",
+    "username": "Username",
+    "signIn": "Sign In",
+    "testConnection": "Test Connection",
+    "parameters": "Parameters",
+    "welcome": "Welcome to TeWo-P",
+    "logout": "Logout",
+    "areYouSureClose": "Are you sure you want to continue?",
+    "closeLogOutWarning": "This will log you out and set your session as inactive.",
+    "yes": "Yes",
+    "no": "No",
+    "loggingOut": "Logging out...",
+    "verifyingCredentials": "Verifying Credentials...",
+    "sessionActiveWarning": "Session already active. Please log out from other devices.",
+    "errorUserAliasMissing": "Error: User alias missing.",
+    "connectionFailed": "Connection failed. Please try again.",
+    "connectionSuccessful": "Connection Successful!",
+    "error": "Error: {error}",
+    "@error": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    }
+}

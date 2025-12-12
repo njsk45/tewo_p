@@ -30,10 +30,6 @@ class AwsService {
 
     print('[DEBUG] AwsService.init called with region: $_region');
 
-    // Using simple alphanumeric credential provider for standard keys
-    // Note: The error indicates the provider expects an argument (Client? client).
-    // We adjust the closure to accept it (and ignore it).
-
     var provider;
     if (accessKey != null && secretKey != null) {
       print('[DEBUG] Creating provider with passed args');

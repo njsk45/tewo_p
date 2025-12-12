@@ -37,9 +37,23 @@ class ParametersService {
   }
 
   bool get isDarkMode => _parameters['isDarkMode'] ?? true; // Default to dark
+  String get currentLocale =>
+      _parameters['locale'] ?? 'en'; // Default to English
 
   Future<void> setTheme(bool isDark) async {
     _parameters['isDarkMode'] = isDark;
+    await _save();
+  }
+
+  Future<void> setLocale(String localeCode) async {
+    _parameters['locale'] = localeCode;
+    await _save();
+  }
+
+  bool get isFullScreen => _parameters['isFullScreen'] ?? false;
+
+  Future<void> setFullScreen(bool isFull) async {
+    _parameters['isFullScreen'] = isFull;
     await _save();
   }
 }

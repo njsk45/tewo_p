@@ -1,103 +1,68 @@
 # TeWo-P
-- is a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale (POS) system. It is a POS that can be run on different platforms and easily adapted for each kind of users.
-
-- An ambitious project that aims to be an alternative to traditional POS systems, featuring modern functionalities and a clean, simple design.
+**TeWo-P** is a "Multi^2-PF" (Multiplatform-Multifunctional) Point of Sale (POS) system designed to run on various platforms and adapt easily to different user needs. It is an ambitious open-source alternative to traditional POS systems, featuring modern functionalities and a clean, simple design.
 
 # OBJECTIVES
-       
-  - To be a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale system.
-       
-  - To be a POS system accessible to the user on any device.
-       
-  - To have both a local and a cloud database.
-       
-  - To feature a free-use and opensource version which allows sales processing and inventory management with limitations, but including the basic functionalities of a traditional POS.
-       
-  - To feature a premium-use version which allows sales processing and inventory management without limitations, but including advanced functionalities of a traditional POS.
-       
-  - To have versatility with APIs that allow integration with local, remote, and cloud DB models.
-       
-  - To have periodic free updates: Security, functionality, and support.
+- **Multi-Platform & Multifunctional:** A POS system accessible on any device.
+- **Hybrid Database:** Support for both local and cloud databases.
+- **Flexible Licensing:**
+  - **Open Source:** Free version for basic sales and inventory management.
+  - **Premium:** Advanced functionalities for professional use.
+- **Versatile Integration:** APIs for local, remote, and cloud DB models.
+- **Continuous Improvement:** Periodic updates for security, functionality, and support.
 
 # BASE FUNCTIONALITIES
 
-- Users
+### Core Modules
+- **Users:** Login, Registration, Logout, Password Management.
+- **Inventory:** List, Search, Add, Modify, and Delete products.
+- **Sales:** List, Search, Add, Modify, and Delete sales records.
+- **Reports:** Generate, Search, and Manage reports.
+- **Configuration:** System and User preferences.
 
-  - Login
+### API Capabilities
+- **Desktop:** Full remote use for Administrators and Employees.
+- **Mobile:** Remote use with specific limitations (e.g., Login and Sales only).
 
-  - Registration
+# PROJECT STRUCTURE
+The codebase is organized into modular libraries:
 
-  - Logout
+- **app_desktop/**: Core code for the desktop application.
+  - `ui_desktop.dart`: User interface for the desktop.
+  - `setting_up.dart`: Database configuration and setup.
+  - `aws_service.dart`: AWS DynamoDB implementation.
+- **app_movil/**: Core code for the mobile application.
+  - `ui_movil.dart`: User interface for mobile.
+  - `db_connector.dart`: Remote database connection logic for mobile.
 
-  - Change password
-       
-- Inventory:
-       
-  - List products
+# HOW DOES THE CODE WORK?
 
-  - Search products
+### Platform Detection & Startup
+The entry point is `lib/main.dart`, which checks which version of the UI to execute (desktop or mobile).
+*Note: Currently, development is focused on the Desktop UI (`lib/app_desktop/ui_desktop.dart`). The Mobile UI is not active.*
 
-  - Add products
+### Desktop Initialization Flow
+When the script detects the OS as a desktop system, it starts a check to ensure a configuration file (`setts.json`) exists.
 
-  - Modify products
+1. **First Run (No Configuration):**
+   - If `setts.json` does not exist, the main function redirects the user to the Setup Screen (`lib/apis/setting_up.dart`) to configure the database management.
+   - Currently, `lib/apis/setting_up.dart` supports **AWS DynamoDB**.
+   - The user must enter the DB keys, press the **test button**, and finally save the keys (encrypted format).
+   - When setup is finished, `lib/app_desktop/ui_desktop.dart` starts with the `LoginDynamoDBPage`.
+   - *Note: For now, users login with hardcoded credentials: `admin` `admin`.*
 
-  - Delete products
-       
-- Sales:
-       
-  - List sales
-       
-  - Search sales
-       
-  - Add sales
-       
-  - Modify sales
-       
-  - Delete sales
-       
-- Reports:
-       
-  - List reports
-              
-  - Search reports
-              
-  - Add reports
-              
-  - Modify reports
-              
-  - Delete reports
-       
-- Configuration:
-       
-  - List configuration
-              
-  - Search configuration
-              
-  - Add configuration
-              
-  - Modify configuration
-              
-  - Delete configuration
+2. **Standard Run (Configuration Exists):**
+   - If `setts.json` exists, the app performs a connection test.
+   - **Test OK:** Opens the Login Page. After login, the main page of `lib/app_desktop/ui_desktop.dart` starts.
+   - **Test Failed:** Immediately sends the user to a Warning Page (check connection or call DB support).
+     - *If connectivity is resolved:* Automatically starts the Login Page.
 
-- APIs:
-  - Remote use from desktop devices (Administrator and Employee)
-       
-  - Remote use from mobile devices with Employee limitations (Login and sales only)
+### Main Interface Features
+After logging in, the Desktop UI (`lib/app_desktop/ui_desktop.dart`) presents two main options:
+- **Test Connection:** Tests the connection with the Database.
+- **Parameters:** Manage settings. Currently limits to choosing the application theme (Dark or Light).
 
-- lib EXPLANATION:
-
-  - app_desktop: base functions for the desktop application
-        
-    - setting_up.dart: a way to set up the database management.
-              
-    - aws_service.dart: amazon aws database support.
-              
-    - ui_desktop: user interface for desktop.
-
-  - app_movil: base functions for the mobile application
-
-    - db_connector.dart: the function library for connecting to the remote database for the mobile application.
-              
-    - ui_movil: user interface for mobile.
+### Continuous Monitoring
+The software performs a regular check for connectivity problems (e.g., Wi-Fi or Internet issues).
+If disconnected, the software immediately redirects to a warning page until the connection is restored.
 
 MIT License (see LICENSE)

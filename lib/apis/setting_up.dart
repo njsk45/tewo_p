@@ -283,7 +283,7 @@ class _SettingUpPageState extends State<SettingUpPage> {
       await _saveSettings();
       if (mounted) {
         _navigatorKey.currentState!.pushReplacement(
-          MaterialPageRoute(builder: (context) => const MainDesktop()),
+          MaterialPageRoute(builder: (context) => const LoginDynamoDBPage()),
         );
       }
     } else {
@@ -319,7 +319,7 @@ class _SettingUpPageState extends State<SettingUpPage> {
 
     // final directory = await getApplicationDocumentsDirectory();
     final file = File(
-      '/home/night/Documents/Code/Flutter/Testing/Calculadora/TeWo-PV/TeWo-P/tewo_p/testjson/setts.json',
+      '/home/night/Documents/Code/Flutter/Testing/Calculadora/TeWo-PV/Cano Private Software Project/testjson/setts.json',
     );
     await file.writeAsString(jsonEncode(envelope));
     print('[DEBUG] Settings saved (encrypted) to: ${file.path}');

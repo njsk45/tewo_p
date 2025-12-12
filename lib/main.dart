@@ -36,7 +36,7 @@ void main() async {
     try {
       // final directory = await getApplicationDocumentsDirectory();
       final file = File(
-        '/home/night/Documents/Code/Flutter/Testing/Calculadora/TeWo-PV/TeWo-P/tewo_p/testjson/setts.json',
+        '/home/night/Documents/Code/Flutter/Testing/Calculadora/TeWo-PV/Cano Private Software Project/testjson/setts.json',
       );
       print('[DEBUG] Checking settings file at: ${file.path}');
 

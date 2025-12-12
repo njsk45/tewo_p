@@ -3,7 +3,7 @@
 
 - An ambitious project that aims to be an alternative to traditional POS systems, featuring modern functionalities and a clean, simple design.
 
-- OBJECTIVES
+# OBJECTIVES
        
   - To be a "Multi^2-PF" (Multiplatform-Multifunctional) point of sale system.
        
@@ -19,86 +19,85 @@
        
   - To have periodic free updates: Security, functionality, and support.
 
-- BASE FUNCTIONALITIES
+# BASE FUNCTIONALITIES
 
-       - User:
+- Users
+
+  - Login
+
+  - Registration
+
+  - Logout
+
+  - Change password
        
-              - Login
-              
-              - Registration
-              
-              - Logout
-              
-              - Change password
+- Inventory:
        
-       - Inventory:
+  - List products
+
+  - Search products
+
+  - Add products
+
+  - Modify products
+
+  - Delete products
        
-              - List products
-              
-              - Search products
-              
-              - Add products
-              
-              - Modify products
-              
-              - Delete products
+- Sales:
        
-       - Sales:
+  - List sales
        
-              - List sales
-              
-              - Search sales
-              
-              - Add sales
-              
-              - Modify sales
-              
-              - Delete sales
+  - Search sales
        
-       - Reports:
+  - Add sales
        
-              - List reports
-              
-              - Search reports
-              
-              - Add reports
-              
-              - Modify reports
-              
-              - Delete reports
+  - Modify sales
        
-       - Configuration:
+  - Delete sales
        
-              - List configuration
+- Reports:
+       
+  - List reports
               
-              - Search configuration
+  - Search reports
               
-              - Add configuration
+  - Add reports
               
-              - Modify configuration
+  - Modify reports
               
-              - Delete configuration
+  - Delete reports
+       
+- Configuration:
+       
+  - List configuration
+              
+  - Search configuration
+              
+  - Add configuration
+              
+  - Modify configuration
+              
+  - Delete configuration
 
 - APIs:
-
-        - Remote use from desktop devices (Administrator and Employee)
+  - Remote use from desktop devices (Administrator and Employee)
        
-        - Remote use from mobile devices with Employee limitations (Login and sales only)
+  - Remote use from mobile devices with Employee limitations (Login and sales only)
 
 - lib EXPLANATION:
 
-       - app_desktop: base functions for the desktop application
+  - app_desktop: base functions for the desktop application
         
-              - setting_up.dart: a way to set up the database management.
+    - setting_up.dart: a way to set up the database management.
               
-              - aws_service.dart: amazon aws database support.
+    - aws_service.dart: amazon aws database support.
               
-              - ui_desktop: user interface for desktop.
+    - ui_desktop: user interface for desktop.
 
-       - app_movil: base functions for the mobile application
+ - app_movil: base functions for the mobile application
 
-              - db_connector.dart: the function library for connecting to the remote database for the mobile application.
+   - db_connector.dart: the function library for connecting to the remote database for the mobile application.
               
-              - ui_movil: user interface for mobile.
+   - ui_movil: user interface for mobile.
 
 MIT License (see LICENSE)

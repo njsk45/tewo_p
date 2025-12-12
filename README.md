@@ -94,10 +94,10 @@
               
     - ui_desktop: user interface for desktop.
 
- - app_movil: base functions for the mobile application
+  - app_movil: base functions for the mobile application
 
-   - db_connector.dart: the function library for connecting to the remote database for the mobile application.
+    - db_connector.dart: the function library for connecting to the remote database for the mobile application.
               
-   - ui_movil: user interface for mobile.
+    - ui_movil: user interface for mobile.
 
 MIT License (see LICENSE)

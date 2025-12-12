@@ -80,24 +80,8 @@ BASE FUNCTIONALITIES
 
     APIs:
 
-        - Remote use from desktop devices (Administrator and Employee)
+        - (For now) only AWS DynamoDB is supported, but you can integrate with other APIs or replace the AWS service with your own, I will return the old API support in the next update.
 
-        - Remote use from mobile devices with Employee limitations (Login and sales only)
-
-      lib EXPLANATION
-
-    - app_desktop: base functions for the desktop application
-
-        * dblib.dart: the base function library for the desktop application
-
-        * dblib.g.dart: Code generation for static reflection of dblib.dart
-
-        * ui_desktop: user interface for desktop.
-
-    - app_movil: base functions for the mobile application
-
-        * db_connector.dart: the function library for connecting to the remote database for the mobile application.
-        
-        * ui_movil: user interface for mobile.
+        - Pheripheral devices (ticket printers, scanners, etc.) are supported.
 
 MIT License (see LICENSE)

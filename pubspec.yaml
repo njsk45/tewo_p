@@ -13,6 +13,10 @@ dependencies:
   path: ^1.8.3
   flutter:
     sdk: flutter
+  aws_dynamodb_api: ^2.0.0
+  aws_common: ^0.7.12
+  window_manager: ^0.5.1
+  encrypt: ^5.0.3
 
 dev_dependencies:
   flutter_test:
@@ -20,6 +24,8 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   drift_dev: ^2.13.0 # Herramienta para generar el código de las tablas
   build_runner: ^2.4.6 # Herramienta para generar código Dart
+  plugin_platform_interface: ^2.1.8
+  path_provider_platform_interface: ^2.1.2
 
 flutter:
   uses-material-design: true

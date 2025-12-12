@@ -1,9 +1,8 @@
 //Desktop Interface
 import 'dart:io';
-import 'package:tewo_p/app_desktop/dblib.dart';
+import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+import 'package:aws_common/aws_common.dart';
 import 'package:flutter/material.dart';
-
-AppDatabase tewodb = AppDatabase();
 
 class MainDesktop extends StatelessWidget {
   const MainDesktop({super.key});

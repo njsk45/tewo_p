@@ -85,4 +85,25 @@ We are building a platform that grows with you. The upcoming **"Main Plan" Plugi
 - **Share** their innovations with the global community.
 This feature aims to democratize the development of POS solutions, allowing every user to contribute to a more versatile and powerful ecosystem.
 
+### PLUGINS Structure (STILL Testing, coming soon)
+Grocery Plugin
+|
+├── manifest.json  
+|   └── store_name: "Grocery Store"
+|   └── store_prefix: "grocery"
+|   └── store_logo: "store_logo.png"
+|   └── store_scripts: "grocery_ops","grocery_view"
+|
+├── frontend/
+|   └── grocery_ops.dart       //this will be replaced by a functional plugin script later
+|   └── grocery_view.dart      //this will be replaced by a functional plugin script later
+|
+├── backend/
+|   └── grocery_lambda/
+|       └── index.js
+|       └── package.json
+|
+└── assets/
+    └── store_logo.png
+
 MIT License (see LICENSE)

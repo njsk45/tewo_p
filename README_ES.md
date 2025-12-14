@@ -85,4 +85,25 @@ Estamos construyendo una plataforma que crece contigo. El próximo **Sistema de 
 - **Compartir** sus innovaciones con la comunidad global.
 Esta característica tiene como objetivo democratizar el desarrollo de soluciones POS, permitiendo que cada usuario contribuya a un ecosistema más versátil y potente.
 
+### PLUGINS Structure (STILL Testing, coming soon)
+Grocery Plugin
+|
+├── manifest.json  
+|   └── store_name: "Grocery Store"
+|   └── store_prefix: "grocery"
+|   └── store_logo: "store_logo.png"
+|   └── store_scripts: "grocery_ops","grocery_view"
+|
+├── frontend/
+|   └── grocery_ops.dart       //this will be replaced by a functional plugin script later
+|   └── grocery_view.dart      //this will be replaced by a functional plugin script later
+|
+├── backend/
+|   └── grocery_lambda/
+|       └── index.js
+|       └── package.json
+|
+└── assets/
+    └── store_logo.png
+
 Licencia MIT (ver LICENSE)

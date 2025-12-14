@@ -7,12 +7,14 @@ class UsersManagementScreen extends StatefulWidget {
   final bool canEdit;
   final bool canAdd;
   final Map<String, AttributeValue> currentUser;
+  final String usersTableName;
 
   const UsersManagementScreen({
     super.key,
     required this.canEdit,
     required this.canAdd,
     required this.currentUser,
+    required this.usersTableName,
   });
 
   @override
@@ -41,7 +43,9 @@ class _UsersManagementScreenState extends State<UsersManagementScreen> {
       // Scan all users. For a large database, this should be paginated server-side,
       // but for this requirement and likely dataset size, scanning all is acceptable
       // to support flexible client-side search.
-      final output = await AwsService().client.scan(tableName: 'cano_users');
+      final output = await AwsService().client.scan(
+        tableName: widget.usersTableName,
+      );
       if (output.items != null) {
         setState(() {
           _allUsers = output.items!;
@@ -53,7 +57,10 @@ class _UsersManagementScreenState extends State<UsersManagementScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.errorFetchingUsers),
+            content: Text(
+              AppLocalizations.of(context)?.errorFetchingUsers ??
+                  'Error fetching users',
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -101,17 +108,20 @@ class _UsersManagementScreenState extends State<UsersManagementScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.delete),
-        content: Text(AppLocalizations.of(context)!.deleteUserConfirm),
+        title: Text(AppLocalizations.of(context)?.delete ?? 'Delete'),
+        content: Text(
+          AppLocalizations.of(context)?.deleteUserConfirm ??
+              'Are you sure you want to delete this user?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: Text(AppLocalizations.of(context)?.cancel ?? 'Cancel'),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             child: Text(
-              AppLocalizations.of(context)!.delete,
+              AppLocalizations.of(context)?.delete ?? 'Delete',
               style: const TextStyle(color: Colors.red),
             ),
           ),
@@ -122,7 +132,7 @@ class _UsersManagementScreenState extends State<UsersManagementScreen> {
     if (confirmed == true) {
       try {
         await AwsService().client.deleteItem(
-          tableName: 'cano_users',
+          tableName: widget.usersTableName,
           key: {
             'user_id': AttributeValue(n: userId),
           }, // Using user_id (Number) as PK
@@ -130,7 +140,9 @@ class _UsersManagementScreenState extends State<UsersManagementScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(AppLocalizations.of(context)!.userDeleted),
+              content: Text(
+                AppLocalizations.of(context)?.userDeleted ?? 'User deleted',
+              ),
               backgroundColor: Colors.green,
             ),
           );
@@ -285,7 +297,7 @@ class _UsersManagementScreenState extends State<UsersManagementScreen> {
                     }
 
                     await AwsService().client.putItem(
-                      tableName: 'cano_users',
+                      tableName: widget.usersTableName,
                       item: updatedItem,
                     );
                     if (context.mounted) Navigator.pop(context);
@@ -406,7 +418,7 @@ class _UsersManagementScreenState extends State<UsersManagementScreen> {
                     final newUserId = (maxId + 1).toString();
 
                     await AwsService().client.putItem(
-                      tableName: 'cano_users',
+                      tableName: widget.usersTableName,
                       item: {
                         'user_alias': AttributeValue(s: aliasController.text),
                         'user_id': AttributeValue(

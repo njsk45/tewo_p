@@ -1,0 +1,101 @@
+Analyzing Cano Private Software Project...                      
+
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:28:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:31:5 • avoid_print
+   info • An uninitialized variable should have an explicit type annotation • lib/apis/aws_service.dart:33:9 • prefer_typing_uninitialized_variables
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:35:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:37:9 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:41:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:43:9 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:50:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:76:5 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:79:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:82:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/aws_service.dart:83:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/parameters_service.dart:25:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/parameters_service.dart:35:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:34:5 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:41:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:46:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:61:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:63:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:103:5 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:111:9 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:115:9 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:123:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:148:9 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:154:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:164:11 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:167:11 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/session_service.dart:171:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:222:5 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:230:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:240:7 • avoid_print
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/apis/setting_up.dart:247:30 • use_build_context_synchronously
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:257:7 • avoid_print
+   info • Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check • lib/apis/setting_up.dart:262:30 • use_build_context_synchronously
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:274:7 • avoid_print
+   info • Statements in an if should be enclosed in a block • lib/apis/setting_up.dart:491:9 • curly_braces_in_flow_control_structures
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:521:9 • avoid_print
+   info • Use interpolation to compose strings and values • lib/apis/setting_up.dart:521:15 • prefer_interpolation_to_compose_strings
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:524:9 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:526:9 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:531:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:533:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/apis/setting_up.dart:590:5 • avoid_print
+   info • Statements in an if should be enclosed in a block • lib/app_desktop/business_settings_screen.dart:280:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/app_desktop/business_settings_screen.dart:287:7 • curly_braces_in_flow_control_structures
+   info • Don't invoke 'print' in production code • lib/app_desktop/business_settings_screen.dart:313:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/app_desktop/business_settings_screen.dart:573:7 • avoid_print
+   info • Don't use 'BuildContext's across async gaps • lib/app_desktop/ops/phones_repair_stock.dart:214:33 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/app_desktop/ops/phones_repair_stock.dart:228:52 • use_build_context_synchronously
+   info • Don't invoke 'print' in production code • lib/app_desktop/ops/product_batch_creator.dart:104:7 • avoid_print
+   info • Use 'rethrow' to rethrow a caught exception • lib/app_desktop/ops/product_batch_creator.dart:105:7 • use_rethrow_when_possible
+warning • The value of the field '_errorMessage' isn't used • lib/app_desktop/ops/stock_management_page.dart:41:11 • unused_field
+   info • Don't invoke 'print' in production code • lib/app_desktop/ops/stock_management_page.dart:119:7 • avoid_print
+   info • Statements in an if should be enclosed in a block • lib/app_desktop/ops/stock_management_page.dart:243:7 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block • lib/app_desktop/ops/stock_management_page.dart:250:7 • curly_braces_in_flow_control_structures
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre • lib/app_desktop/ops/stock_management_page.dart:459:13 • deprecated_member_use
+   info • Use 'const' with the constructor to improve performance • lib/app_desktop/splash_screen.dart:34:12 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance • lib/app_desktop/splash_screen.dart:36:13 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance • lib/app_desktop/splash_screen.dart:38:15 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance • lib/app_desktop/splash_screen.dart:39:18 • prefer_const_constructors
+   info • Use 'const' literals as arguments to constructors of '@immutable' classes • lib/app_desktop/splash_screen.dart:41:23 • prefer_const_literals_to_create_immutables
+   info • Don't invoke 'print' in production code • lib/app_desktop/ui_desktop.dart:441:7 • avoid_print
+   info • Don't use 'BuildContext's across async gaps • lib/app_desktop/ui_desktop.dart:524:20 • use_build_context_synchronously
+   info • Don't invoke 'print' in production code • lib/app_desktop/ui_desktop.dart:547:7 • avoid_print
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/app_desktop/ui_desktop.dart:573:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/app_desktop/ui_desktop.dart:574:39 • deprecated_member_use
+   info • Use 'const' with the constructor to improve performance • lib/app_desktop/ui_desktop.dart:601:23 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance • lib/app_desktop/ui_desktop.dart:605:23 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance • lib/app_desktop/ui_desktop.dart:609:23 • prefer_const_constructors
+   info • Use 'const' with the constructor to improve performance • lib/app_desktop/ui_desktop.dart:614:25 • prefer_const_constructors
+   info • Don't invoke 'print' in production code • lib/app_desktop/ui_desktop.dart:1135:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/app_desktop/ui_desktop.dart:1231:11 • avoid_print
+   info • Don't invoke 'print' in production code • lib/app_desktop/ui_desktop.dart:1237:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/app_desktop/ui_desktop.dart:1254:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/app_desktop/ui_desktop.dart:1358:13 • avoid_print
+   info • Don't invoke 'print' in production code • lib/app_desktop/ui_desktop.dart:1418:13 • avoid_print
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/app_desktop/ui_desktop.dart:1683:44 • deprecated_member_use
+   info • Don't invoke 'print' in production code • lib/app_desktop/users_management.dart:56:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/app_desktop/users_management.dart:152:9 • avoid_print
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre • lib/app_desktop/users_management.dart:216:21 • deprecated_member_use
+   info • Don't invoke 'print' in production code • lib/app_desktop/users_management.dart:306:21 • avoid_print
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre • lib/app_desktop/users_management.dart:354:21 • deprecated_member_use
+   info • Don't invoke 'print' in production code • lib/app_desktop/users_management.dart:453:21 • avoid_print
+   info • Parameter 'locale' could be a super parameter • lib/l10n/manual_localizations.dart:120:3 • use_super_parameters
+   info • Parameter 'locale' could be a super parameter • lib/l10n/manual_localizations.dart:243:3 • use_super_parameters
+warning • Unused import: 'package:tewo_p/app_desktop/splash_screen.dart' • lib/main.dart:10:8 • unused_import
+   info • Don't invoke 'print' in production code • lib/main.dart:36:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:37:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:84:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:115:13 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:117:15 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:141:21 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:150:19 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:162:13 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:169:11 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:180:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/main.dart:211:9 • avoid_print
+
+97 issues found. (ran in 1.1s)

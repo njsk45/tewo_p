@@ -21,6 +21,7 @@ dependencies:
   window_manager: ^0.5.1
   encrypt: ^5.0.3
   uuid: ^4.5.2
+  mailer: ^6.6.0
 
 dependency_overrides:
   intl: any

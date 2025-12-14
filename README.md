@@ -73,5 +73,16 @@ TeWo-P employs a unique **Prefix System** to dynamically adapt the user interfac
 - **Interface Tailoring:** Based on this prefix, the software decides which specific modules to load. For instance, a phone repair shop will see different inventory columns and operation buttons compared to a standard retail store.
 - **Scalability:** This allows the same core software to power widely different enterprise types (Stores, Workshops, generic Business) without needing separate codebases.
 
+# FUTURE ROADMAP & SECURITY
+
+### 🔒 Enhanced Security Protocols
+As we advance through our initial development phases, we are committed to implementing robust, state-of-the-art security measures. While database keys are currently encrypted locally, our future architecture will transition to **serverless protocols**. This evolution ensures that sensitive credentials are managed with the highest level of security, keeping your data safe as we scale.
+
+### 🧩 "Main Plan" Plugins (Coming Soon)
+We are building a platform that grows with you. The upcoming **"Main Plan" Plugin System** will revolutionize how you interact with TeWo-P. Users will soon have the power to:
+- **Create** custom interface behaviors and workflows.
+- **Export** their unique configurations.
+- **Share** their innovations with the global community.
+This feature aims to democratize the development of POS solutions, allowing every user to contribute to a more versatile and powerful ecosystem.
 
 MIT License (see LICENSE)

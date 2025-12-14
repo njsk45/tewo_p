@@ -73,5 +73,16 @@ TeWo-P emplea un **Sistema de Prefijos** único para adaptar dinámicamente la i
 - **Adaptación de la Interfaz:** Basado en este prefijo, el software decide qué módulos específicos cargar. Por ejemplo, un taller de reparación de teléfonos verá columnas de inventario y botones de operación diferentes en comparación con una tienda minorista estándar.
 - **Escalabilidad:** Esto permite que el mismo software central impulse tipos de empresas muy diferentes (Tiendas, Talleres, Negocios genéricos) sin necesidad de bases de código separadas.
 
+# HOJA DE RUTA Y SEGURIDAD
+
+### 🔒 Protocolos de Seguridad Mejorados
+A medida que avanzamos en nuestras fases iniciales de desarrollo, estamos comprometidos con la implementación de medidas de seguridad robustas y de vanguardia. Si bien las claves de la base de datos se almacenan actualmente cifradas localmente, nuestra arquitectura futura transicionará hacia **protocolos serverless**. Esta evolución asegura que las credenciales sensibles se gestionen con el más alto nivel de seguridad, manteniendo sus datos protegidos a medida que escalamos.
+
+### 🧩 Plugins del "Plan Principal" (Próximamente)
+Estamos construyendo una plataforma que crece contigo. El próximo **Sistema de Plugins "Plan Principal"** revolucionará la forma en que interactúas con TeWo-P. Los usuarios pronto tendrán el poder de:
+- **Crear** comportamientos y flujos de trabajo de interfaz personalizados.
+- **Exportar** sus configuraciones únicas.
+- **Compartir** sus innovaciones con la comunidad global.
+Esta característica tiene como objetivo democratizar el desarrollo de soluciones POS, permitiendo que cada usuario contribuya a un ecosistema más versátil y potente.
 
 Licencia MIT (ver LICENSE)

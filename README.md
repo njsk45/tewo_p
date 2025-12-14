@@ -75,10 +75,10 @@ TeWo-P employs a unique **Prefix System** to dynamically adapt the user interfac
 
 # FUTURE ROADMAP & SECURITY
 
-### 🔒 Enhanced Security Protocols
+### Enhanced Security Protocols
 As we advance through our initial development phases, we are committed to implementing robust, state-of-the-art security measures. While database keys are currently encrypted locally, our future architecture will transition to **serverless protocols**. This evolution ensures that sensitive credentials are managed with the highest level of security, keeping your data safe as we scale.
 
-### 🧩 "Main Plan" Plugins (Coming Soon)
+### "Main Plan" Plugins (Coming Soon)
 We are building a platform that grows with you. The upcoming **"Main Plan" Plugin System** will revolutionize how you interact with TeWo-P. Users will soon have the power to:
 - **Create** custom interface behaviors and workflows.
 - **Export** their unique configurations.

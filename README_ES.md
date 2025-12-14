@@ -65,4 +65,13 @@ Después de iniciar sesión, la UI de Escritorio (`lib/app_desktop/ui_desktop.da
 El software realiza una verificación regular de problemas de conectividad (ej. problemas de Wi-Fi o Internet).
 Si se desconecta, el software redirige inmediatamente a una página de advertencia hasta que la conexión se restablezca.
 
+# SISTEMA DE ADAPTACIÓN DE NEGOCIO (PREFIJOS)
+TeWo-P emplea un **Sistema de Prefijos** único para adaptar dinámicamente la interfaz de usuario y los conjuntos de herramientas disponibles según el tipo específico de negocio que utiliza el software. Esta lógica se controla principalmente mediante las variables `bussines_prefix` y `bussines_target` gestionadas en la configuración.
+
+### ¿Cómo funciona?
+- **Identificación:** Cuando la aplicación se carga, lee el prefijo asignado (por ejemplo, `phones_repair`).
+- **Adaptación de la Interfaz:** Basado en este prefijo, el software decide qué módulos específicos cargar. Por ejemplo, un taller de reparación de teléfonos verá columnas de inventario y botones de operación diferentes en comparación con una tienda minorista estándar.
+- **Escalabilidad:** Esto permite que el mismo software central impulse tipos de empresas muy diferentes (Tiendas, Talleres, Negocios genéricos) sin necesidad de bases de código separadas.
+
+
 Licencia MIT (ver LICENSE)

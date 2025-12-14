@@ -65,4 +65,13 @@ After logging in, the Desktop UI (`lib/app_desktop/ui_desktop.dart`) presents tw
 The software performs a regular check for connectivity problems (e.g., Wi-Fi or Internet issues).
 If disconnected, the software immediately redirects to a warning page until the connection is restored.
 
+# BUSINESS ADAPTATION SYSTEM (PREFIXES)
+TeWo-P employs a unique **Prefix System** to dynamically adapt the user interface and available toolsets based on the specific type of business using the software. This logic is controlled primarily by the `bussines_prefix` and `bussines_target` variables managed in the settings.
+
+### How it works:
+- **Identification:** When the application loads, it reads the assigned prefix (e.g., `phones_repair`).
+- **Interface Tailoring:** Based on this prefix, the software decides which specific modules to load. For instance, a phone repair shop will see different inventory columns and operation buttons compared to a standard retail store.
+- **Scalability:** This allows the same core software to power widely different enterprise types (Stores, Workshops, generic Business) without needing separate codebases.
+
+
 MIT License (see LICENSE)

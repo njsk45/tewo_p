@@ -1,3 +1,4 @@
+//TO DETERMINATE WHAT WILL SEE phones_repair PREFIX at inventory tab
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:flutter/material.dart';
 import 'package:tewo_p/apis/aws_service.dart';

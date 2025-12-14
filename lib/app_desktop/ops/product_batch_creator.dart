@@ -1,3 +1,6 @@
+//THIS PAGE IS TO CREATE PRODUCTS AND IT TO THE DB
+//FOR NOW IS ONLY WORKIN FOR phones_repair PREFIX
+//NOTE: YOU MUST KNOW HOW TO MANAGE bussines_prefix and bussines_target
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:flutter/material.dart';
 import 'package:tewo_p/apis/aws_service.dart';

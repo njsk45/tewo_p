@@ -1,3 +1,4 @@
+// LOADING SPLASH SCREEN
 import 'package:flutter/material.dart';
 
 class SplashApp extends StatefulWidget {

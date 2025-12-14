@@ -7,8 +7,8 @@ environment:
   sdk: ^3.10.1
 
 dependencies:
-  drift: ^2.13.0 # Core de la librería Drift/SQLite
-  sqlite3_flutter_libs: ^0.5.40 # Implementación de SQLite para Flutter (Multiplataforma)
+  drift: ^2.13.0 # Core of the drift/sqlite library
+  sqlite3_flutter_libs: ^0.5.40 # SQLite implementation for Flutter (Multiplatform)
   path_provider: ^2.1.1
   path: ^1.8.3
   flutter:
@@ -30,8 +30,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  drift_dev: ^2.13.0 # Herramienta para generar el código de las tablas
-  build_runner: ^2.4.6 # Herramienta para generar código Dart
+  drift_dev: ^2.13.0 # Tool to generate the code of the tables
+  build_runner: ^2.4.6 # Tool to generate Dart code
   plugin_platform_interface: ^2.1.8
   path_provider_platform_interface: ^2.1.2
 

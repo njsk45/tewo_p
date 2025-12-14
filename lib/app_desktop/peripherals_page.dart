@@ -1,3 +1,4 @@
+//COMING SOON
 import 'package:flutter/material.dart';
 
 class PeripheralsPage extends StatefulWidget {

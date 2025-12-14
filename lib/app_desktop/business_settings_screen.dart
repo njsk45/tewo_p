@@ -1,3 +1,6 @@
+//THIS PAGE IS LIKE PROFILE PAGE, BUT FOR THE BUSSINESS
+//TO MAKE CHANGES AT THE DB YOU MUST VERIFY THE OWNER EMAIL
+//NOTE: YOU MUST KNOW HOW TO MANAGE bussines_prefix and bussines_target
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';

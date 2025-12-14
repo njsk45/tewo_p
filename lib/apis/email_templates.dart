@@ -1,3 +1,4 @@
+// HERE YOU CAN MANAGE THE EMAIL TEMPLATES AND EDIT THEM AS YOU LIKE
 class EmailTemplates {
   // Stock Decretion Verification Email
   static const String stockDecretionSubject =

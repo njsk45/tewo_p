@@ -1,3 +1,5 @@
+//TO DETERMINATE WHAT WILL SEE THE phones_repair PREFIX at Operations Tab
+//NOTE: YOU MUST KNOW HOW TO MANAGE bussines_prefix and bussines_target
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:flutter/material.dart';
 import 'package:tewo_p/apis/aws_service.dart';

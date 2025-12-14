@@ -1,6 +1,12 @@
+//DESKTOP MAIN INTERFACE
+//----------------------------
+//HERE YOU WILL MANAGE THE DESKTOP INTERFACE.
+//-----------------------------
+//NOTE: YOU HAVE TO KNOW HOW TO MANAGE OR DETERMINATE
+//THE INTERFACE THAT YOU WILL SEE,
+//YOU MUST READ HOW TO MANAGE bussines_prefix and bussines_target
 import "dart:async";
 import "dart:io";
-//Desktop Interface
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

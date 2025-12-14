@@ -1,3 +1,4 @@
+// NOTE: I WILL REWORK THIS BECAUSE FOR DYNAMO DB THIS WILL USE A LOT OF READ CAPACITY UNITS
 // Session Service, this manage the session as ACTIVE, IDLE OR INACTIVE
 import 'package:tewo_p/apis/aws_service.dart';
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';

@@ -1,3 +1,6 @@
+//Manage Stock Settings
+//TO ENTER HERE STOCK/INVENTORY TAB > MANAGE STOCK BUTTON
+//NOTE: YOU MUST KNOW HOW TO MANAGE bussines_prefix and bussines_target
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';

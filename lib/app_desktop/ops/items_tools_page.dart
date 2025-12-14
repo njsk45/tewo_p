@@ -1,3 +1,4 @@
+//MANAGE THE PRODUCTS OR ITEMS THAT THE BUSSINES HAS AT INVENTORY
 import 'package:flutter/material.dart';
 import 'package:tewo_p/app_desktop/ops/product_batch_creator.dart';
 

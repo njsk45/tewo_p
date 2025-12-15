@@ -16,7 +16,6 @@
         "AUDITOR": "behavior/home_screen_auditor.json"
     },
     "bussiness_data": {
-        "bussines_name": "Vehicle Rental General",
         "database_attribute": "vh_rental_general",
         "bussiness_target": "vh_rental_general",
         "bussiness_logo": "assets/visual/logo.png",

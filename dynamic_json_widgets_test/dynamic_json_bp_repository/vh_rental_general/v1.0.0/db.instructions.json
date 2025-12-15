@@ -82,6 +82,7 @@
         },
         {
             "table_name": "${prefix}_products",
+            "essential_table": false,
             "attributes": [
                 {
                     "name": "product_id",
@@ -92,48 +93,112 @@
                     "type": "string"
                 },
                 {
-                    "name": "product_price",
-                    "type": "double"
+                    "name": "product_description",
+                    "type": "string"
                 },
                 {
-                    "name": "product_handwork_price",
-                    "type": "double"
-                },
-                {
-                    "name": "product_tax",
-                    "type": "double"
-                },
-                {
-                    "name": "product_stock",
-                    "type": "int"
-                },
-                {
-                    "name": "product_tags",
-                    "type": "list"
+                    "name": "product_rent_price",
+                    "type": "float"
                 },
                 {
                     "name": "product_state",
+                    "type": "int"
+                },
+                {
+                    "name": "product_last_rental_date",
                     "type": "string"
                 },
                 {
-                    "name": "product_creation_date",
+                    "name": "product_last_rental_return_date",
                     "type": "string"
                 },
                 {
-                    "name": "product_last_update_date",
+                    "name": "product_last_rental_client_id",
+                    "type": "int"
+                },
+                {
+                    "name": "product_last_rental_client_name",
                     "type": "string"
                 },
                 {
-                    "name": "product_user_creation",
+                    "name": "product_last_rental_client_alias",
                     "type": "string"
                 },
                 {
-                    "name": "product_user_last_update",
+                    "name": "product_last_rental_client_name",
                     "type": "string"
                 },
                 {
-                    "name": "product_last_update_reason",
+                    "name": "product_last_rental_client_alias",
                     "type": "string"
+                },
+                {
+                    "name": "product_last_rental_client_email",
+                    "type": "string"
+                },
+                {
+                    "name": "product_last_rental_client_phone",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "table_name": "${prefix}_clients",
+            "essential_table": false,
+            "attributes": [
+                {
+                    "name": "client_id",
+                    "type": "int"
+                },
+                {
+                    "name": "client_name",
+                    "type": "string"
+                },
+                {
+                    "name": "client_alias",
+                    "type": "string"
+                },
+                {
+                    "name": "client_email",
+                    "type": "string"
+                },
+                {
+                    "name": "client_phone",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "table_name": "${prefix}_rental_history",
+            "essential_table": false,
+            "attributes": [
+                {
+                    "name": "rental_history_id",
+                    "type": "int"
+                },
+                {
+                    "name": "rental_history_product_id",
+                    "type": "int"
+                },
+                {
+                    "name": "rental_history_client_id",
+                    "type": "int"
+                },
+                {
+                    "name": "rental_history_rental_date",
+                    "type": "string"
+                },
+                {
+                    "name": "rental_history_return_date",
+                    "type": "string"
+                },
+                {
+                    "name": "rental_history_rental_price",
+                    "type": "float"
+                },
+                {
+                    "name": "rental_history_rental_state",
+                    "type": "int"
                 }
             ]
         }

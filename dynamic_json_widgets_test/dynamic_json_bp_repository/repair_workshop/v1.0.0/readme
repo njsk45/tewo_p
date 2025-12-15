@@ -1,5 +1,6 @@
-Sistema de Inventario para Talleres de Reparación.
-Administra las ventas, compras, inventario y empleados.
+Inventory System for Repair Workshops
+Manage your workshop inventory, sales, purchases and employees.
+Includes an Audit and Reports System.
 Includes:
 - Business Data Tables
 - Users System :

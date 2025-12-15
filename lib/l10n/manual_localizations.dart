@@ -110,6 +110,7 @@ abstract class AppLocalizations {
   String get import;
 
   String get selectLanguage;
+  String get databasePreview;
 }
 
 class _AppLocalizationsDelegate
@@ -307,6 +308,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noPacksFound => 'No packs found';
   @override
   String get selectLanguage => 'Select Language';
+  @override
+  String get databasePreview => 'Database Preview';
 }
 
 class AppLocalizationsEs extends AppLocalizations {
@@ -478,4 +481,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noPacksFound => 'No se encontraron paquetes';
   @override
   String get selectLanguage => 'Seleccionar Idioma';
+  @override
+  String get databasePreview => 'Datos Técnicos de la Base de Datos';
 }

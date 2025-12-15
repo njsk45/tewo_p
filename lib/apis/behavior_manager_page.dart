@@ -6,6 +6,7 @@ import 'package:tewo_p/services/bp_service.dart';
 import 'package:tewo_p/app/loading_splash.dart';
 import 'package:tewo_p/services/db_instruction_service.dart';
 import 'package:tewo_p/apis/business_setup_page.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // -----------------------------------------------------------------------------
 // PHASE 3B: BEHAVIOR MANAGER PAGE
@@ -21,22 +22,58 @@ class _BehaviorManagerPageState extends State<BehaviorManagerPage> {
   List<dynamic> _packs = [];
   bool _isLoading = true;
 
+  static String _getRootDir() {
+    if (Platform.isAndroid) {
+      return '/storage/emulated/0/Documents/dynamic_json_widgets_test/dynamic_json_bp_repository';
+    }
+    final home = Platform.environment['HOME'] ?? '/home/night';
+    return '$home/Documents/Code/TeWo/TeWo-P/dynamic_json_widgets_test/dynamic_json_bp_repository';
+  }
+
   @override
   void initState() {
     super.initState();
     _loadFiles();
   }
 
+  static Future<bool> checkAndroidPermissions(BuildContext context) async {
+    if (!Platform.isAndroid) return true;
+
+    var status = await Permission.manageExternalStorage.status;
+    if (!status.isGranted) {
+      status = await Permission.manageExternalStorage.request();
+    }
+    if (!status.isGranted) {
+      // Fallback/Alternative for older Android or specific scopes
+      var storage = await Permission.storage.status;
+      if (!storage.isGranted) {
+        storage = await Permission.storage.request();
+      }
+      if (!storage.isGranted && !status.isGranted) {
+        print("Storage permission denied");
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Storage permission required for test path"),
+            ),
+          );
+        }
+        return false;
+      }
+    }
+    return true;
+  }
+
   Future<void> _loadFiles() async {
     try {
-      // Find the #dynamic_json_widgets_test folder
-      // Assuming typical structure: ~/Documents/Code/TeWo/TeWo-P/#dynamic_json_widgets_test/contents.json
-      final home = Platform.environment['HOME'] ?? '/home/night';
-      final rootDir =
-          '$home/Documents/Code/TeWo/TeWo-P/dynamic_json_widgets_test/dynamic_json_bp_repository';
+      if (!await checkAndroidPermissions(context)) {
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      final rootDir = _getRootDir();
       final contentsFile = File('$rootDir/contents.json');
 
-      print('DEBUG: HOME=$home');
       print('DEBUG: rootDir=$rootDir');
       print('DEBUG: targetFile=${contentsFile.path}');
 
@@ -235,9 +272,7 @@ class _BehaviorPackDetailsPageState extends State<BehaviorPackDetailsPage> {
   }
 
   Future<void> _loadDescription() async {
-    final home = Platform.environment['HOME'] ?? '/home/night';
-    final rootDir =
-        '$home/Documents/Code/TeWo/TeWo-P/dynamic_json_widgets_test/dynamic_json_bp_repository';
+    final rootDir = _BehaviorManagerPageState._getRootDir();
 
     // Defer locale check to context availability or pass it
     // But we are in State, so we can access context in build or use simple logic here if ready.
@@ -283,15 +318,28 @@ class _BehaviorPackDetailsPageState extends State<BehaviorPackDetailsPage> {
   }
 
   Future<void> _handleUseTemplate() async {
+    // Check permissions first
+    if (!await _BehaviorManagerPageState.checkAndroidPermissions(context))
+      return;
+
     // Show splash screen
     LoadingSplash.show(context: context, message: "Unpacking Template...");
 
     try {
-      final home = Platform.environment['HOME'] ?? '/home/night';
-      final srcRootDir =
-          '$home/Documents/Code/TeWo/TeWo-P/dynamic_json_widgets_test/dynamic_json_bp_repository';
-      final destDir =
-          '$home/Documents/Code/TeWo/TeWo-P/dynamic_json_widgets_test/bp';
+      final srcRootDir = _BehaviorManagerPageState._getRootDir();
+      // On Android, we might need a different dest dir too, but for now assuming same structure or app documents dir.
+      // Actually, user only specified test path for reading. Let's keep destDir logic or use app docs dir.
+      // For now, let's just fix srcRootDir.
+
+      final String destDir;
+      if (Platform.isAndroid) {
+        // Use a temp or documents path for extraction test
+        destDir = '/storage/emulated/0/Documents/dynamic_json_widgets_test/bp';
+      } else {
+        final home = Platform.environment['HOME'] ?? '/home/night';
+        destDir =
+            '$home/Documents/Code/TeWo/TeWo-P/dynamic_json_widgets_test/bp';
+      }
 
       // Locate .twbp file
       // Strategy: look in the same folder as manifest.json
@@ -322,18 +370,20 @@ class _BehaviorPackDetailsPageState extends State<BehaviorPackDetailsPage> {
         destinationDir: destDir,
       );
 
-      // Read db.instructions.json if it exists
-      // Note: The structure is repo/pack_name/v1.0.0/manifest.json
-      // The instructions are at repo/pack_name/db.instructions.json
-      // So parentDir is v1.0.0, parentDir.parent is pack_name.
+      // Read db.instructions.json from path specified in contents.json
+      final dbInstructionsRelPath = widget.pack['db_instructions'];
+      String dbInstructionsPath;
 
-      // Let's verify location.
-      // parentDir: .../vh_rental_general/v1.0.0
-      // dbInstructions: .../vh_rental_general/db.instructions.json
-      // so parentDir.parent.path + /db.instructions.json
+      if (dbInstructionsRelPath != null) {
+        dbInstructionsPath = '$srcRootDir/$dbInstructionsRelPath';
+      } else {
+        // Fallback to legacy structure if missing
+        dbInstructionsPath = '${parentDir.parent.path}/db.instructions.json';
+        print(
+          "Warning: db_instructions not found in pack config, trying legacy: $dbInstructionsPath",
+        );
+      }
 
-      final dbInstructionsPath =
-          '${parentDir.parent.path}/db.instructions.json';
       final dbInstructionsFileCorrect = File(dbInstructionsPath);
 
       Map<String, dynamic> dbInstructions = {};
@@ -344,6 +394,20 @@ class _BehaviorPackDetailsPageState extends State<BehaviorPackDetailsPage> {
         );
       } else {
         print("Warning: db.instructions.json not found at $dbInstructionsPath");
+      }
+
+      // Read manifest content to pass to setup page
+      Map<String, dynamic> manifestData = {};
+      // Reuse manifestRelPath from earlier
+      if (manifestRelPath != null) {
+        final manifestFile = File('$srcRootDir/$manifestRelPath');
+        if (await manifestFile.exists()) {
+          try {
+            manifestData = jsonDecode(await manifestFile.readAsString());
+          } catch (e) {
+            print('Error reading manifest content: $e');
+          }
+        }
       }
 
       // Hide splash
@@ -357,6 +421,7 @@ class _BehaviorPackDetailsPageState extends State<BehaviorPackDetailsPage> {
             builder: (context) => BusinessSetupPage(
               packInstructions: dbInstructions,
               packPath: destDir, // Passing where it was extracted
+              manifest: manifestData,
             ),
           ),
         );

@@ -75,10 +75,10 @@ TeWo-P emplea un **Sistema de Prefijos** único para adaptar dinámicamente la i
 
 # HOJA DE RUTA Y SEGURIDAD
 
-### 🔒 Protocolos de Seguridad Mejorados
+### Protocolos de Seguridad Mejorados
 A medida que avanzamos en nuestras fases iniciales de desarrollo, estamos comprometidos con la implementación de medidas de seguridad robustas y de vanguardia. Si bien las claves de la base de datos se almacenan actualmente cifradas localmente, nuestra arquitectura futura transicionará hacia **protocolos serverless**. Esta evolución asegura que las credenciales sensibles se gestionen con el más alto nivel de seguridad, manteniendo sus datos protegidos a medida que escalamos.
 
-### 🧩 Plugins del "Plan Principal" (Próximamente)
+### Plugins "Plan Principal" (Próximamente)
 Estamos construyendo una plataforma que crece contigo. El próximo **Sistema de Plugins "Plan Principal"** revolucionará la forma en que interactúas con TeWo-P. Los usuarios pronto tendrán el poder de:
 - **Crear** comportamientos y flujos de trabajo de interfaz personalizados.
 - **Exportar** sus configuraciones únicas.

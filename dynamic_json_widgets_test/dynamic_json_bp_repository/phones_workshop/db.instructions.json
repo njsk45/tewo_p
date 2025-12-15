@@ -1,0 +1,141 @@
+{
+    "tables": [
+        {
+            "table_name": "bussiness_data",
+            "essential_table": true,
+            "attributes": [
+                {
+                    "name": "bussiness_id",
+                    "type": "int"
+                },
+                {
+                    "name": "bussiness_name",
+                    "type": "string"
+                },
+                {
+                    "name": "bussiness_prefix",
+                    "type": "string"
+                },
+                {
+                    "name": "bussiness_owner",
+                    "type": "string"
+                },
+                {
+                    "name": "bussiness_email",
+                    "type": "string"
+                },
+                {
+                    "name": "bussiness_phone",
+                    "type": "string"
+                },
+                {
+                    "name": "bussiness_location",
+                    "type": "string"
+                },
+                {
+                    "name": "bussiness_type",
+                    "type": "string"
+                },
+                {
+                    "name": "bussiness_password",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "table_name": "${prefix}_users",
+            "essential_table": true,
+            "attributes": [
+                {
+                    "name": "user_id",
+                    "type": "int"
+                },
+                {
+                    "name": "user_name",
+                    "type": "string"
+                },
+                {
+                    "name": "user_password",
+                    "type": "string"
+                },
+                {
+                    "name": "user_email",
+                    "type": "string"
+                },
+                {
+                    "name": "user_alias",
+                    "type": "string"
+                },
+                {
+                    "name": "user_role",
+                    "type": "string"
+                },
+                {
+                    "name": "user_creation_date",
+                    "type": "string"
+                },
+                {
+                    "name": "user_phone",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "table_name": "${prefix}_products",
+            "attributes": [
+                {
+                    "name": "product_id",
+                    "type": "int"
+                },
+                {
+                    "name": "product_name",
+                    "type": "string"
+                },
+                {
+                    "name": "product_price",
+                    "type": "double"
+                },
+                {
+                    "name": "product_handwork_price",
+                    "type": "double"
+                },
+                {
+                    "name": "product_tax",
+                    "type": "double"
+                },
+                {
+                    "name": "product_stock",
+                    "type": "int"
+                },
+                {
+                    "name": "product_tags",
+                    "type": "list"
+                },
+                {
+                    "name": "product_state",
+                    "type": "string"
+                },
+                {
+                    "name": "product_creation_date",
+                    "type": "string"
+                },
+                {
+                    "name": "product_last_update_date",
+                    "type": "string"
+                },
+                {
+                    "name": "product_user_creation",
+                    "type": "string"
+                },
+                {
+                    "name": "product_user_last_update",
+                    "type": "string"
+                },
+                {
+                    "name": "product_last_update_reason",
+                    "type": "string"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Vehicle Rental General",
+        "folder": "vh_rental_general",
+        "manifest": "vh_rental_general/v1.0.0/manifest.json",
+        "description": "vh_rental_general/v1.0.0/readme",
+        "description_es": "vh_rental_general/v1.0.0/readme_es"
+    },
+    {
+        "name": "Phones Workshop",
+        "folder": "phones_workshop",
+        "manifest": "phones_workshop/v1.0.0/manifest.json",
+        "description": "phones_workshop/v1.0.0/readme",
+        "description_es": "phones_workshop/v1.0.0/readme_es"
+    }
+]

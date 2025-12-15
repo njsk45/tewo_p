@@ -136,7 +136,7 @@ class SessionService {
   /// - If allowed, it performs a GetItem to check 'is_active'.
   /// - If 'is_active' is 'INACTIVE', it triggers the [onInactive] callback.
   Future<void> checkSessionStatus(VoidCallback onInactive) async {
-    if (_currentUserId == null || tableName.isEmpty) return;
+    if (_currentUserId == null || _tableName == null) return;
 
     // Check Penalty
     if (_isPenaltyActive) {

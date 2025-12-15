@@ -1,0 +1,24 @@
+{
+    "behavior_pack_name": "Phones Workshop",
+    "behavior_pack_version": "1.0.0",
+    "author": "Arzeuk Corp",
+    "tags": [
+        "phones",
+        "workshop",
+        "tewo"
+    ],
+    "database_template": "assets/database_template.json",
+    "role_templates": {
+        "ADMIN": "behavior/home_screen_admin.json",
+        "MODERATOR": "behavior/home_screen_moderator.json",
+        "EMPLOYEE": "behavior/home_screen_employee.json",
+        "AUDITOR": "behavior/home_screen_auditor.json"
+    },
+    "bussiness_data": {
+        "bussines_name": "Phones Workshop",
+        "database_attribute": "phones_workshop",
+        "bussiness_target": "phones_workshop",
+        "bussiness_logo": "assets/visual/logo.png",
+        "bussines_banner": "assets/visual/banner.png"
+    }
+}

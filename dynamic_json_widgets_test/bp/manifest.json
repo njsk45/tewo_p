@@ -1,6 +1,12 @@
 {
     "behavior_pack_name": "Phones Workshop",
     "behavior_pack_version": "1.0.0",
+    "author": "Arzeuk Corp",
+    "tags": [
+        "phones",
+        "workshop",
+        "tewo"
+    ],
     "database_template": "assets/database_template.json",
     "role_templates": {
         "ADMIN": "behavior/home_screen_admin.json",

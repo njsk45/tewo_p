@@ -1,4 +1,5 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
+import 'package:tewo_p/apis/aws_local_service.dart';
 
 class AwsService {
   // Singleton instance
@@ -37,6 +38,17 @@ class AwsService {
 
     print('[DEBUG] AwsService.init called with region: $_region');
 
+    if (_endpointUrl.isNotEmpty) {
+      // Delegate to Local Service for custom endpoints
+      _client = AwsLocalService.createClient(
+        endpointUrl: _endpointUrl,
+        region: _region,
+        accessKey: _accessKey,
+        secretKey: _secretKey,
+      );
+      return;
+    }
+
     var provider;
     if (accessKey != null && secretKey != null) {
       print('[DEBUG] Creating provider with passed args');
@@ -57,11 +69,7 @@ class AwsService {
       print('[DEBUG] No credentials available for provider');
     }
 
-    _client = DynamoDB(
-      region: _region,
-      endpointUrl: _endpointUrl.isNotEmpty ? _endpointUrl : null,
-      credentialsProvider: provider,
-    );
+    _client = DynamoDB(region: _region, credentialsProvider: provider);
   }
 
   /// Returns the configured DynamoDb client.

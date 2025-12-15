@@ -63,6 +63,8 @@ abstract class AppLocalizations {
   String get delete;
   String get deleteUserConfirm;
   String get userDeleted;
+  String get availablePacks;
+  String get noPacksFound;
   String get editUser;
   String get save;
   String get cancel;
@@ -90,6 +92,7 @@ abstract class AppLocalizations {
   String get connectExisting;
   String get createNew;
   String get setupTemplateTitle;
+  String get setupTemplateSubTitle;
   String get grocery;
   String get restaurant;
   String get vehicleRental;
@@ -101,11 +104,12 @@ abstract class AppLocalizations {
   String get vehicleType2;
   String get vehicleType3;
   String get vehicleType4;
+  String get vehicleType5;
   String get behaviorManager;
   String get searchPack;
   String get import;
-  String get availablePacks;
-  String get noPacksFound;
+
+  String get selectLanguage;
 }
 
 class _AppLocalizationsDelegate
@@ -264,7 +268,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get createNew => 'Create New Business';
   @override
-  String get setupTemplateTitle => 'Let\'s Setup your Business Template';
+  String get setupTemplateTitle => 'Business Template';
+  @override
+  String get setupTemplateSubTitle => 'Recommended Behaviors';
   @override
   String get grocery => 'Grocery';
   @override
@@ -274,7 +280,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get phonesWorkshop => 'Phones Workshop';
   @override
-  String get customBehavior => 'Import a Custom Behavior';
+  String get customBehavior => 'More Behaviors';
   @override
   String get comingSoon => 'Coming Soon';
   @override
@@ -288,6 +294,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get vehicleType4 => 'Two-Wheeled Vehicles';
   @override
+  String get vehicleType5 => 'General';
+  @override
   String get behaviorManager => 'Behavior Manager';
   @override
   String get searchPack => 'Search Pack...';
@@ -297,6 +305,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get availablePacks => 'Available Behavior Packs';
   @override
   String get noPacksFound => 'No packs found';
+  @override
+  String get selectLanguage => 'Select Language';
 }
 
 class AppLocalizationsEs extends AppLocalizations {
@@ -429,7 +439,9 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get createNew => 'Crear Nuevo Negocio';
   @override
-  String get setupTemplateTitle => 'Configuremos tu Plantilla de Negocio';
+  String get setupTemplateTitle => 'Plantilla de Negocio';
+  @override
+  String get setupTemplateSubTitle => 'Comportamientos Recomendados';
   @override
   String get grocery => 'Supermercado';
   @override
@@ -439,7 +451,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get phonesWorkshop => 'Taller de Teléfonos';
   @override
-  String get customBehavior => 'Importar Comportamiento Personalizado';
+  String get customBehavior => 'Más Comportamientos';
   @override
   String get comingSoon => 'Próximamente';
   @override
@@ -453,6 +465,8 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get vehicleType4 => 'Vehículos a Dos Ruedas';
   @override
+  String get vehicleType5 => 'Vehículos Generales';
+  @override
   String get behaviorManager => 'Gestor de Comportamientos';
   @override
   String get searchPack => 'Buscar Paquete...';
@@ -462,4 +476,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get availablePacks => 'Paquetes Disponibles';
   @override
   String get noPacksFound => 'No se encontraron paquetes';
+  @override
+  String get selectLanguage => 'Seleccionar Idioma';
 }

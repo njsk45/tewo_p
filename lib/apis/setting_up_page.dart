@@ -9,24 +9,24 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:path_provider/path_provider.dart';
 
 import 'package:tewo_p/apis/aws_service.dart';
-// import 'package:tewo_p/app_desktop/ui_desktop.dart'; // REMOVED
 import 'package:tewo_p/apis/behavior_manager_page.dart';
 import 'package:tewo_p/l10n/manual_localizations.dart';
 
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:window_manager/window_manager.dart';
 
 // -----------------------------------------------------------------------------
 // MAIN ENTRY POINT FOR SETUP
 // -----------------------------------------------------------------------------
-class SettingUpMobilePage extends StatefulWidget {
-  const SettingUpMobilePage({super.key});
+class SettingUpPage extends StatefulWidget {
+  const SettingUpPage({super.key});
 
   @override
-  State<SettingUpMobilePage> createState() => _SettingUpMobilePageState();
+  State<SettingUpPage> createState() => _SettingUpPageState();
 }
 
-class _SettingUpMobilePageState extends State<SettingUpMobilePage> {
+class _SettingUpPageState extends State<SettingUpPage> {
   final _navigatorKey = GlobalKey<NavigatorState>();
   ThemeMode _themeMode = ThemeMode.dark;
   Locale _locale = const Locale('en');
@@ -41,7 +41,9 @@ class _SettingUpMobilePageState extends State<SettingUpMobilePage> {
   Future<void> _loadPreferences() async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/assets/json/preferences.json');
+      final file = File(
+        '${directory.path}/TeWo-Preferences/assets/json/preferences.json',
+      );
       if (await file.exists()) {
         final content = await file.readAsString();
         final data = jsonDecode(content);
@@ -83,13 +85,43 @@ class _SettingUpMobilePageState extends State<SettingUpMobilePage> {
     _savePreferences();
   }
 
-  void _toggleLocale() {
-    setState(() {
-      _locale = _locale.languageCode == 'en'
-          ? const Locale('es')
-          : const Locale('en');
-    });
-    _savePreferences();
+  Future<void> _changeLocale(Locale newLocale) async {
+    setState(() => _locale = newLocale);
+    await _savePreferences();
+    if (_navigatorKey.currentState?.canPop() ?? false) {
+      _navigatorKey.currentState!.pop();
+    }
+  }
+
+  void _showLanguageDialog() {
+    final context = _navigatorKey.currentContext;
+    if (context == null) return;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          AppLocalizations.of(context)?.selectLanguage ?? 'Select Language',
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Text('🇺🇸', style: TextStyle(fontSize: 24)),
+              title: const Text('English'),
+              onTap: () => _changeLocale(const Locale('en')),
+              selected: _locale.languageCode == 'en',
+            ),
+            ListTile(
+              leading: const Text('🇪🇸', style: TextStyle(fontSize: 24)),
+              title: const Text('Español'),
+              onTap: () => _changeLocale(const Locale('es')),
+              selected: _locale.languageCode == 'es',
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -109,7 +141,7 @@ class _SettingUpMobilePageState extends State<SettingUpMobilePage> {
       navigatorKey: _navigatorKey,
       home: WelcomeSetupMobilePage(
         onToggleTheme: _toggleTheme,
-        onToggleLocale: _toggleLocale,
+        onToggleLocale: _showLanguageDialog,
         currentTheme: _themeMode,
         currentLocale: _locale,
       ),
@@ -139,6 +171,15 @@ class WelcomeSetupMobilePage extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
+        leading: (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
+            ? IconButton(
+                icon: const Icon(Icons.fullscreen),
+                onPressed: () async {
+                  bool isFullScreen = await windowManager.isFullScreen();
+                  await windowManager.setFullScreen(!isFullScreen);
+                },
+              )
+            : null,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
@@ -181,7 +222,7 @@ class WelcomeSetupMobilePage extends StatelessWidget {
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ConnectExistingMobilePage(),
+                    builder: (context) => const ConnectExistingPage(),
                   ),
                 ),
               ),
@@ -193,7 +234,7 @@ class WelcomeSetupMobilePage extends StatelessWidget {
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BusinessTemplateMobilePage(),
+                    builder: (context) => const BusinessTemplatePage(),
                   ),
                 ),
               ),
@@ -225,8 +266,8 @@ class WelcomeSetupMobilePage extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // PHASE 2A: CONNECT EXISTING BUSINESS
 // -----------------------------------------------------------------------------
-class ConnectExistingMobilePage extends StatelessWidget {
-  const ConnectExistingMobilePage({super.key});
+class ConnectExistingPage extends StatelessWidget {
+  const ConnectExistingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +288,7 @@ class ConnectExistingMobilePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const DynamoDBSetupMobileFlow(),
+                      builder: (context) => const DynamoDBSetupFlow(),
                     ),
                   );
                 },
@@ -277,8 +318,8 @@ class ConnectExistingMobilePage extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // PHASE 2B: BUSINESS PRE-SETS (TEMPLATES)
 // -----------------------------------------------------------------------------
-class BusinessTemplateMobilePage extends StatelessWidget {
-  const BusinessTemplateMobilePage({super.key});
+class BusinessTemplatePage extends StatelessWidget {
+  const BusinessTemplatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -290,6 +331,12 @@ class BusinessTemplateMobilePage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Text(
+                l10n.setupTemplateSubTitle,
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
               _buildTemplateButton(
                 context,
                 l10n.grocery,
@@ -306,14 +353,17 @@ class BusinessTemplateMobilePage extends StatelessWidget {
                 context,
                 l10n.vehicleRental,
                 Icons.car_rental,
-                enabled: true,
+                enabled: false,
                 onPressed: () {
-                  Navigator.push(
+                  ScaffoldMessenger.of(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const VehicleRentalMobilePage(),
-                    ),
-                  );
+                  ).showSnackBar(SnackBar(content: Text(l10n.comingSoon)));
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const VehicleRentalPage(),
+                  //   ),
+                  // );
                 },
               ),
               _buildTemplateButton(
@@ -382,75 +432,21 @@ class BusinessTemplateMobilePage extends StatelessWidget {
 }
 
 // -----------------------------------------------------------------------------
-// PHASE 3A: VEHICLE RENTAL CONFIG
-// -----------------------------------------------------------------------------
-class VehicleRentalMobilePage extends StatelessWidget {
-  const VehicleRentalMobilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.vehicleRental)),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                l10n.vehicleTypeTitle,
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-              _buildVehicleOption(context, l10n.vehicleType1),
-              _buildVehicleOption(context, l10n.vehicleType2),
-              _buildVehicleOption(context, l10n.vehicleType3),
-              _buildVehicleOption(context, l10n.vehicleType4),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildVehicleOption(BuildContext context, String label) {
-    final l10n = AppLocalizations.of(context)!;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 50,
-        child: ElevatedButton(
-          onPressed: () {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(l10n.comingSoon)));
-          },
-          child: Text(label),
-        ),
-      ),
-    );
-  }
-}
-
-// -----------------------------------------------------------------------------
 // ORIGINAL LOGIC: DYNAMODB SETUP FLOW
 // -----------------------------------------------------------------------------
-class DynamoDBSetupMobileFlow extends StatefulWidget {
-  const DynamoDBSetupMobileFlow({super.key});
+class DynamoDBSetupFlow extends StatefulWidget {
+  const DynamoDBSetupFlow({super.key});
 
   @override
-  State<DynamoDBSetupMobileFlow> createState() =>
-      _DynamoDBSetupMobileFlowState();
+  State<DynamoDBSetupFlow> createState() => _DynamoDBSetupFlowState();
 }
 
-class _DynamoDBSetupMobileFlowState extends State<DynamoDBSetupMobileFlow> {
+class _DynamoDBSetupFlowState extends State<DynamoDBSetupFlow> {
   // AWS Form Controllers
   final _accessKeyController = TextEditingController();
   final _secretKeyController = TextEditingController();
   final _regionController = TextEditingController();
+  final _endpointController = TextEditingController();
 
   // Business Login Controllers
   final _businessEmailController = TextEditingController();
@@ -482,6 +478,7 @@ class _DynamoDBSetupMobileFlowState extends State<DynamoDBSetupMobileFlow> {
     _accessKeyController.dispose();
     _secretKeyController.dispose();
     _regionController.dispose();
+    _endpointController.dispose();
     _businessEmailController.dispose();
     _businessPasswordController.dispose();
     _verificationCodeController.dispose();
@@ -535,6 +532,14 @@ class _DynamoDBSetupMobileFlowState extends State<DynamoDBSetupMobileFlow> {
           controller: _regionController,
           decoration: const InputDecoration(labelText: 'Region'),
         ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: _endpointController,
+          decoration: const InputDecoration(
+            labelText: 'Endpoint URL (Optional)',
+            hintText: 'e.g. http://10.0.2.2:8000',
+          ),
+        ),
         const SizedBox(height: 24),
         if (_isTesting)
           const CircularProgressIndicator()
@@ -573,6 +578,9 @@ class _DynamoDBSetupMobileFlowState extends State<DynamoDBSetupMobileFlow> {
         accessKey: _accessKeyController.text,
         secretKey: _secretKeyController.text,
         region: _regionController.text,
+        endpointUrl: _endpointController.text.isNotEmpty
+            ? _endpointController.text
+            : null,
       );
 
       final isConnected = await service.checkConnection();
@@ -903,6 +911,9 @@ Code: $_generatedCode
       'accessKey': _accessKeyController.text,
       'secretKey': _secretKeyController.text,
       'region': _regionController.text,
+      'endpointUrl': _endpointController.text.isNotEmpty
+          ? _endpointController.text
+          : null,
       'bussiness_name': _businessData!['bussiness_name'],
       'bussiness_key': _businessData!['bussiness_key'],
       'bussiness_owner': _businessData!['bussiness_owner'],

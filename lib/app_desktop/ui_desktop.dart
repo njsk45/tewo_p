@@ -17,15 +17,16 @@ import 'package:window_manager/window_manager.dart';
 import 'package:tewo_p/apis/aws_service.dart';
 import 'package:tewo_p/apis/session_service.dart';
 import 'package:tewo_p/apis/parameters_service.dart';
-import 'package:tewo_p/app_desktop/users_management.dart';
 import 'package:tewo_p/app_desktop/user_profile.dart';
 import 'package:tewo_p/app_desktop/peripherals_page.dart';
 import 'package:tewo_p/services/secure_storage_service.dart';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:tewo_p/services/dynamic_ui_service.dart';
+import 'package:json_dynamic_widget/json_dynamic_widget.dart';
+import 'package:tewo_p/app_desktop/users_management.dart';
 import 'package:tewo_p/app_desktop/business_settings_screen.dart';
-
 import 'package:tewo_p/app_desktop/ops/items_tools_page.dart';
 import 'package:tewo_p/app_desktop/ops/phones_repair_stock.dart';
 
@@ -358,6 +359,8 @@ class _DesktopHomeScreenState extends State<DesktopHomeScreen>
   String _sessionStatus = 'ACTIVE';
   static const int _inactivityLimit = 480; // 480 seconds = 8 minutes
   late TabController _tabController;
+  Widget? _dynamicHomeWidget;
+  bool _isLoadingDynamic = true;
 
   @override
   void initState() {
@@ -377,6 +380,81 @@ class _DesktopHomeScreenState extends State<DesktopHomeScreen>
       vsync: this,
     );
     _tabController.addListener(_handleTabSelection);
+    _loadDynamicHome();
+  }
+
+  Future<void> _loadDynamicHome() async {
+    final registry = JsonWidgetRegistry.instance;
+
+    // Register Actions
+    registry.registerFunction('nav_settings', ({args, required registry}) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ParametersPage(
+            onThemeChanged: widget.onThemeChanged,
+            onLocaleChanged: widget.onLocaleChanged,
+            currentLocale: widget.currentLocale,
+          ),
+        ),
+      );
+    });
+
+    registry.registerFunction('nav_profile', ({args, required registry}) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>
+              UserProfileScreen(currentUser: widget.currentUser),
+        ),
+      );
+    });
+
+    registry.registerFunction('action_logout', ({args, required registry}) {
+      _logout();
+    });
+
+    registry.registerFunction('action_toggle_status', ({
+      args,
+      required registry,
+    }) {
+      _updateSessionStatus(_sessionStatus == 'ACTIVE' ? 'IDLE' : 'ACTIVE');
+    });
+
+    // Load Manifest to find role-specific template
+    final manifestFile = File(
+      '${DynamicUiService.testPath}\\phones_workshop\\manifest.json',
+    );
+    String templatePath =
+        'phones_workshop\\behavior\\home_screen_employee.json'; // Fallback
+
+    if (await manifestFile.exists()) {
+      try {
+        final content = await manifestFile.readAsString();
+        final manifest = jsonDecode(content);
+        final roleTemplates = manifest['role_templates'];
+        if (roleTemplates != null) {
+          final role =
+              widget.currentUser['user_role']?.s?.toUpperCase() ?? 'EMPLOYEE';
+          if (roleTemplates.containsKey(role)) {
+            templatePath = 'phones_workshop\\${roleTemplates[role]}';
+          }
+        }
+      } catch (e) {
+        print('Error reading manifest: $e');
+      }
+    }
+
+    final widgetResult = await DynamicUiService().loadJsonWidget(
+      templatePath,
+      context,
+      registry: registry,
+    );
+
+    if (mounted) {
+      setState(() {
+        _dynamicHomeWidget = widgetResult;
+        _isLoadingDynamic = false;
+      });
+    }
   }
 
   void _handleTabSelection() {
@@ -384,8 +462,8 @@ class _DesktopHomeScreenState extends State<DesktopHomeScreen>
     // But since we need to show/hide based on index 0, we can just setState
     setState(() {});
 
-    // Check session status on tab change (Cost-efficient check)
-    SessionService().checkSessionStatus(_performForcedLogout);
+    // Session Check Removed for Offline/Local Rework
+    // SessionService().checkSessionStatus(_performForcedLogout);
   }
 
   void _startInactivityTimer() {
@@ -427,14 +505,16 @@ class _DesktopHomeScreenState extends State<DesktopHomeScreen>
   Future<void> _updateSessionStatus(String newStatus) async {
     setState(() => _isLoading = true);
     try {
-      // Update local object
+      // Update local object (DB Sync disabled)
       widget.currentUser['is_active'] = AttributeValue(s: newStatus);
 
-      // Save to DB using putItem
+      // Save to DB using putItem (DISABLED)
+      /*
       await AwsService().client.putItem(
         tableName: widget.usersTableName,
         item: widget.currentUser,
       );
+      */
 
       setState(() {
         _sessionStatus = newStatus;
@@ -497,31 +577,6 @@ class _DesktopHomeScreenState extends State<DesktopHomeScreen>
         },
       );
     }
-  }
-
-  Future<void> _performForcedLogout() async {
-    if (!mounted) return;
-
-    // Show Dialog ("Session Closed by Admin")
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text('Session Closed'),
-        content: const Text('Your session was closed by an Administrator.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-
-    // Perform actual logout
-    await _logout();
   }
 
   Future<void> _logout({bool setAutoInactive = false}) async {
@@ -702,125 +757,150 @@ class _DesktopHomeScreenState extends State<DesktopHomeScreen>
           children: [
             // Tab 1: Main Menu
             Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: _isLoading
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+              child: _isLoadingDynamic
+                  ? const CircularProgressIndicator()
+                  : _dynamicHomeWidget != null
+                  ? _dynamicHomeWidget!
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            "Dynamic Layout 'home_screen.json' not found or empty.\nUsing fallback hardcoded UI...",
+                            style: TextStyle(color: Colors.orange),
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: _isLoading
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const CircularProgressIndicator(),
+                                      const SizedBox(height: 20),
+                                      Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.loggingOut,
+                                      ),
+                                    ],
+                                  )
+                                : Text(
+                                    AppLocalizations.of(context)!.welcome,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.headlineMedium,
+                                  ),
+                          ),
+                        ),
+                        if (!_isLoading)
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Wrap(
+                              spacing: 16,
+                              runSpacing: 16,
+                              alignment: WrapAlignment.center,
                               children: [
-                                const CircularProgressIndicator(),
-                                const SizedBox(height: 20),
-                                Text(AppLocalizations.of(context)!.loggingOut),
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ParametersPage(
+                                          onThemeChanged: widget.onThemeChanged,
+                                          onLocaleChanged:
+                                              widget.onLocaleChanged,
+                                          currentLocale: widget.currentLocale,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.settings, size: 32),
+                                  label: Text(
+                                    AppLocalizations.of(context)!.parameters,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                      vertical: 24,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => UserProfileScreen(
+                                          currentUser: widget.currentUser,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.person, size: 32),
+                                  label: const Text(
+                                    'My Profile',
+                                  ), // Use localization later
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                      vertical: 24,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: () {
+                                    _updateSessionStatus(
+                                      _sessionStatus == 'ACTIVE'
+                                          ? 'IDLE'
+                                          : 'ACTIVE',
+                                    );
+                                  },
+                                  icon: Icon(
+                                    _sessionStatus == 'ACTIVE'
+                                        ? Icons.timer_off
+                                        : Icons.timer,
+                                    size: 32,
+                                  ),
+                                  label: Text(
+                                    _sessionStatus == 'ACTIVE'
+                                        ? AppLocalizations.of(context)!.setIdle
+                                        : AppLocalizations.of(
+                                            context,
+                                          )!.setActive,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                      vertical: 24,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton.icon(
+                                  onPressed: onWindowClose,
+                                  icon: const Icon(
+                                    Icons.logout,
+                                    size: 32,
+                                    color: Colors.white,
+                                  ), // Contrast?
+                                  label: Text(
+                                    AppLocalizations.of(context)!.logout,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red, // Make it red
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                      vertical: 24,
+                                    ),
+                                  ),
+                                ),
                               ],
-                            )
-                          : Text(
-                              AppLocalizations.of(context)!.welcome,
-                              style: Theme.of(context).textTheme.headlineMedium,
                             ),
+                          ),
+                      ],
                     ),
-                  ),
-                  if (!_isLoading)
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Wrap(
-                        spacing: 16,
-                        runSpacing: 16,
-                        alignment: WrapAlignment.center,
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ParametersPage(
-                                    onThemeChanged: widget.onThemeChanged,
-                                    onLocaleChanged: widget.onLocaleChanged,
-                                    currentLocale: widget.currentLocale,
-                                  ),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.settings, size: 32),
-                            label: Text(
-                              AppLocalizations.of(context)!.parameters,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
-                                vertical: 24,
-                              ),
-                            ),
-                          ),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => UserProfileScreen(
-                                    currentUser: widget.currentUser,
-                                  ),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.person, size: 32),
-                            label: const Text(
-                              'My Profile',
-                            ), // Use localization later
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
-                                vertical: 24,
-                              ),
-                            ),
-                          ),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              _updateSessionStatus(
-                                _sessionStatus == 'ACTIVE' ? 'IDLE' : 'ACTIVE',
-                              );
-                            },
-                            icon: Icon(
-                              _sessionStatus == 'ACTIVE'
-                                  ? Icons.timer_off
-                                  : Icons.timer,
-                              size: 32,
-                            ),
-                            label: Text(
-                              _sessionStatus == 'ACTIVE'
-                                  ? AppLocalizations.of(context)!.setIdle
-                                  : AppLocalizations.of(context)!.setActive,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
-                                vertical: 24,
-                              ),
-                            ),
-                          ),
-                          ElevatedButton.icon(
-                            onPressed: onWindowClose,
-                            icon: const Icon(
-                              Icons.logout,
-                              size: 32,
-                              color: Colors.white,
-                            ), // Contrast?
-                            label: Text(AppLocalizations.of(context)!.logout),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red, // Make it red
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
-                                vertical: 24,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
             ),
+
             // Tab 2: Operations
             // Tab 2: Operations
             if (widget.businessTarget == 'phones_repair')
@@ -1335,8 +1415,8 @@ class LoginDynamoDBPage extends StatefulWidget {
 }
 
 class _LoginDynamoDBPageState extends State<LoginDynamoDBPage> {
-  final _userController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _userController = TextEditingController(text: 'admin');
+  final _passwordController = TextEditingController(text: 'admin');
   final _navigatorKey = GlobalKey<NavigatorState>();
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   String _errorMessage = '';
@@ -1456,7 +1536,103 @@ class _LoginDynamoDBPageState extends State<LoginDynamoDBPage> {
     final user = _userController.text;
     final password = _passwordController.text;
 
+    // BYPASS: Temporal Logins
+    final temporalRoles = {
+      'admin': 'ADMIN',
+      'moderator': 'MODERATOR',
+      'employee': 'EMPLOYEE',
+      'auditor': 'AUDITOR',
+    };
+
+    if (temporalRoles.containsKey(user.trim()) &&
+        password.trim() == user.trim()) {
+      print('[DEBUG] Temporal Bypass Triggered for $user');
+      final role = temporalRoles[user.trim()]!;
+      // Capitalize first letter for Alias
+      final alias = user.trim()[0].toUpperCase() + user.trim().substring(1);
+
+      final mockUser = {
+        'user_alias': AttributeValue(s: alias),
+        'user_role': AttributeValue(s: role),
+        'user_id': AttributeValue(s: '001'),
+        'is_active': AttributeValue(s: 'ACTIVE'),
+      };
+
+      if (mounted) {
+        // Dispatch to appropriate Desktop widget based on role
+        Widget nextScreen;
+        if (role == 'ADMIN') {
+          nextScreen = AdminDesktop(
+            userAlias: alias,
+            userId: '001',
+            currentUser: mockUser,
+            usersTableName: _usersTableName.isNotEmpty
+                ? _usersTableName
+                : 'mock_users',
+            businessTarget: _businessTarget.isNotEmpty
+                ? _businessTarget
+                : 'general',
+            businessPrefix: _businessPrefix.isNotEmpty
+                ? _businessPrefix
+                : 'mock',
+          );
+        } else if (role == 'MODERATOR') {
+          nextScreen = ModeratorDesktop(
+            userAlias: alias,
+            userId: '001',
+            currentUser: mockUser,
+            usersTableName: _usersTableName.isNotEmpty
+                ? _usersTableName
+                : 'mock_users',
+            businessTarget: _businessTarget.isNotEmpty
+                ? _businessTarget
+                : 'general',
+            businessPrefix: _businessPrefix.isNotEmpty
+                ? _businessPrefix
+                : 'mock',
+          );
+        } else if (role == 'AUDITOR') {
+          nextScreen = AuditorDesktop(
+            userAlias: alias,
+            userId: '001',
+            currentUser: mockUser,
+            usersTableName: _usersTableName.isNotEmpty
+                ? _usersTableName
+                : 'mock_users',
+            businessTarget: _businessTarget.isNotEmpty
+                ? _businessTarget
+                : 'general',
+            businessPrefix: _businessPrefix.isNotEmpty
+                ? _businessPrefix
+                : 'mock',
+          );
+        } else {
+          // Employee and others
+          nextScreen = EmployeeDesktop(
+            userAlias: alias,
+            userId: '001',
+            currentUser: mockUser,
+            usersTableName: _usersTableName.isNotEmpty
+                ? _usersTableName
+                : 'mock_users',
+            businessTarget: _businessTarget.isNotEmpty
+                ? _businessTarget
+                : 'general',
+            businessPrefix: _businessPrefix.isNotEmpty
+                ? _businessPrefix
+                : 'mock',
+          );
+        }
+
+        _navigatorKey.currentState!.pushReplacement(
+          MaterialPageRoute(builder: (context) => nextScreen),
+        );
+      }
+      return;
+    }
+
     try {
+      print('[DEBUG] SignIn initiated. User: $user, Table: $_usersTableName');
       final scanOutput = await AwsService().client.scan(
         tableName: _usersTableName,
         filterExpression:
@@ -1467,10 +1643,15 @@ class _LoginDynamoDBPageState extends State<LoginDynamoDBPage> {
         },
       );
 
+      print(
+        '[DEBUG] Scan complete. Found ${scanOutput.items?.length ?? 0} items.',
+      );
+
       if (scanOutput.items != null && scanOutput.items!.isNotEmpty) {
         // Found a user
         final userItem = scanOutput.items!.first;
         final role = userItem['user_role']?.s?.toUpperCase();
+        print('[DEBUG] User found. Role: $role');
 
         // Maintenance Check
         if (widget.maintenanceMode && role == 'EMPLOYEE') {
@@ -1647,6 +1828,7 @@ class _LoginDynamoDBPageState extends State<LoginDynamoDBPage> {
         }
       }
     } catch (e) {
+      print('[DEBUG] SignIn Exception: $e');
       if (mounted) {
         _scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(
@@ -1875,6 +2057,98 @@ class _LoginDynamoDBPageState extends State<LoginDynamoDBPage> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class AuditorDesktop extends StatefulWidget {
+  final String userAlias;
+  final String userId;
+  final Map<String, AttributeValue> currentUser;
+  final String usersTableName;
+  final String businessTarget;
+  final String businessPrefix;
+
+  const AuditorDesktop({
+    super.key,
+    required this.userAlias,
+    required this.userId,
+    required this.currentUser,
+    required this.usersTableName,
+    required this.businessTarget,
+    required this.businessPrefix,
+  });
+
+  @override
+  State<AuditorDesktop> createState() => _AuditorDesktopState();
+}
+
+class _AuditorDesktopState extends State<AuditorDesktop> {
+  ThemeMode _themeMode = ThemeMode.dark;
+  Locale _locale = const Locale('en');
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    await ParametersService().init();
+    setState(() {
+      _themeMode = ParametersService().isDarkMode
+          ? ThemeMode.dark
+          : ThemeMode.light;
+      _locale = Locale(ParametersService().currentLocale);
+    });
+  }
+
+  Future<void> _toggleTheme() async {
+    final newMode = _themeMode == ThemeMode.dark
+        ? ThemeMode.light
+        : ThemeMode.dark;
+    setState(() {
+      _themeMode = newMode;
+    });
+    await ParametersService().setTheme(newMode == ThemeMode.dark);
+  }
+
+  Future<void> _changeLocale(Locale newLocale) async {
+    setState(() {
+      _locale = newLocale;
+    });
+    await ParametersService().setLocale(newLocale.languageCode);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'TeWo-P Auditor',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _locale,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: _themeMode,
+      home: DesktopHomeScreen(
+        onThemeChanged: _toggleTheme,
+        onLocaleChanged: _changeLocale,
+        currentLocale: _locale,
+        title: 'Auditor Desktop',
+        userAlias: widget.userAlias,
+        userId: widget.userId,
+        currentUser: widget.currentUser,
+        usersTableName: widget.usersTableName,
+        showManagerTools: false,
+        canEditUsers: false,
+        canAddUsers: false,
+        canEditBusinessSettings: false,
+        businessTarget: widget.businessTarget,
+        businessPrefix: widget.businessPrefix,
+        canEditStock: false,
+        canAddStock: false,
+        canDeleteStock: false,
       ),
     );
   }

@@ -86,6 +86,26 @@ abstract class AppLocalizations {
   String get newPassword;
   String get confirmPassword;
   String get rememberMe;
+  String get welcomeTitle;
+  String get connectExisting;
+  String get createNew;
+  String get setupTemplateTitle;
+  String get grocery;
+  String get restaurant;
+  String get vehicleRental;
+  String get phonesWorkshop;
+  String get customBehavior;
+  String get comingSoon;
+  String get vehicleTypeTitle;
+  String get vehicleType1;
+  String get vehicleType2;
+  String get vehicleType3;
+  String get vehicleType4;
+  String get behaviorManager;
+  String get searchPack;
+  String get import;
+  String get availablePacks;
+  String get noPacksFound;
 }
 
 class _AppLocalizationsDelegate
@@ -237,6 +257,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmPassword => 'Confirm Password';
   @override
   String get rememberMe => 'Remember Me';
+  @override
+  String get welcomeTitle => 'Welcome to TeWo';
+  @override
+  String get connectExisting => 'Connect to Existing Business';
+  @override
+  String get createNew => 'Create New Business';
+  @override
+  String get setupTemplateTitle => 'Let\'s Setup your Business Template';
+  @override
+  String get grocery => 'Grocery';
+  @override
+  String get restaurant => 'Restaurant';
+  @override
+  String get vehicleRental => 'Vehicles Rental';
+  @override
+  String get phonesWorkshop => 'Phones Workshop';
+  @override
+  String get customBehavior => 'Import a Custom Behavior';
+  @override
+  String get comingSoon => 'Coming Soon';
+  @override
+  String get vehicleTypeTitle => 'Which kind of Vehicles will you Rent?';
+  @override
+  String get vehicleType1 => 'Cargo & Utility Vehicles';
+  @override
+  String get vehicleType2 => 'Urban Vehicles';
+  @override
+  String get vehicleType3 => 'Trips & Off-Road';
+  @override
+  String get vehicleType4 => 'Two-Wheeled Vehicles';
+  @override
+  String get behaviorManager => 'Behavior Manager';
+  @override
+  String get searchPack => 'Search Pack...';
+  @override
+  String get import => 'Import';
+  @override
+  String get availablePacks => 'Available Behavior Packs';
+  @override
+  String get noPacksFound => 'No packs found';
 }
 
 class AppLocalizationsEs extends AppLocalizations {
@@ -362,4 +422,44 @@ class AppLocalizationsEs extends AppLocalizations {
   String get confirmPassword => 'Confirmar Contraseña';
   @override
   String get rememberMe => 'Recordarme';
+  @override
+  String get welcomeTitle => 'Bienvenido a TeWo';
+  @override
+  String get connectExisting => 'Conectar a Negocio Existente';
+  @override
+  String get createNew => 'Crear Nuevo Negocio';
+  @override
+  String get setupTemplateTitle => 'Configuremos tu Plantilla de Negocio';
+  @override
+  String get grocery => 'Supermercado';
+  @override
+  String get restaurant => 'Restaurante';
+  @override
+  String get vehicleRental => 'Renta de Vehículos';
+  @override
+  String get phonesWorkshop => 'Taller de Teléfonos';
+  @override
+  String get customBehavior => 'Importar Comportamiento Personalizado';
+  @override
+  String get comingSoon => 'Próximamente';
+  @override
+  String get vehicleTypeTitle => '¿Qué tipo de vehículos rentarás?';
+  @override
+  String get vehicleType1 => 'Vehículos de Carga y Utilidad';
+  @override
+  String get vehicleType2 => 'Vehículos Urbanos';
+  @override
+  String get vehicleType3 => 'Viajes y Todo Terrenos';
+  @override
+  String get vehicleType4 => 'Vehículos a Dos Ruedas';
+  @override
+  String get behaviorManager => 'Gestor de Comportamientos';
+  @override
+  String get searchPack => 'Buscar Paquete...';
+  @override
+  String get import => 'Importar';
+  @override
+  String get availablePacks => 'Paquetes Disponibles';
+  @override
+  String get noPacksFound => 'No se encontraron paquetes';
 }

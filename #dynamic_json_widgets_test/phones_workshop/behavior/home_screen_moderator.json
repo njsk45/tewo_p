@@ -1,0 +1,165 @@
+{
+    "type": "scaffold",
+    "args": {
+        "body": {
+            "type": "center",
+            "child": {
+                "type": "column",
+                "args": {
+                    "mainAxisAlignment": "center",
+                    "children": [
+                        {
+                            "type": "text",
+                            "args": {
+                                "text": "Welcome to Dynamic TeWo-P!",
+                                "style": {
+                                    "fontSize": 32,
+                                    "fontWeight": "bold"
+                                }
+                            }
+                        },
+                        {
+                            "type": "sized_box",
+                            "args": {
+                                "height": 40
+                            }
+                        },
+                        {
+                            "type": "wrap",
+                            "args": {
+                                "spacing": 16,
+                                "runSpacing": 16,
+                                "alignment": "center",
+                                "children": [
+                                    {
+                                        "type": "elevated_button_icon",
+                                        "args": {
+                                            "onPressed": "nav_settings",
+                                            "icon": {
+                                                "type": "icon",
+                                                "args": {
+                                                    "icon": {
+                                                        "codePoint": 58750,
+                                                        "fontFamily": "MaterialIcons"
+                                                    },
+                                                    "size": 32
+                                                }
+                                            },
+                                            "label": {
+                                                "type": "text",
+                                                "args": {
+                                                    "text": "Parameters"
+                                                }
+                                            },
+                                            "style": {
+                                                "padding": {
+                                                    "left": 32,
+                                                    "top": 24,
+                                                    "right": 32,
+                                                    "bottom": 24
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "elevated_button_icon",
+                                        "args": {
+                                            "onPressed": "nav_profile",
+                                            "icon": {
+                                                "type": "icon",
+                                                "args": {
+                                                    "icon": {
+                                                        "codePoint": 58586,
+                                                        "fontFamily": "MaterialIcons"
+                                                    },
+                                                    "size": 32
+                                                }
+                                            },
+                                            "label": {
+                                                "type": "text",
+                                                "args": {
+                                                    "text": "My Profile"
+                                                }
+                                            },
+                                            "style": {
+                                                "padding": {
+                                                    "left": 32,
+                                                    "top": 24,
+                                                    "right": 32,
+                                                    "bottom": 24
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "elevated_button_icon",
+                                        "args": {
+                                            "onPressed": "action_toggle_status",
+                                            "icon": {
+                                                "type": "icon",
+                                                "args": {
+                                                    "icon": {
+                                                        "codePoint": 58836,
+                                                        "fontFamily": "MaterialIcons"
+                                                    },
+                                                    "size": 32
+                                                }
+                                            },
+                                            "label": {
+                                                "type": "text",
+                                                "args": {
+                                                    "text": "Toggle Status (Local)"
+                                                }
+                                            },
+                                            "style": {
+                                                "padding": {
+                                                    "left": 32,
+                                                    "top": 24,
+                                                    "right": 32,
+                                                    "bottom": 24
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "elevated_button_icon",
+                                        "args": {
+                                            "onPressed": "action_logout",
+                                            "style": {
+                                                "backgroundColor": "red",
+                                                "foregroundColor": "white",
+                                                "padding": {
+                                                    "left": 32,
+                                                    "top": 24,
+                                                    "right": 32,
+                                                    "bottom": 24
+                                                }
+                                            },
+                                            "icon": {
+                                                "type": "icon",
+                                                "args": {
+                                                    "icon": {
+                                                        "codePoint": 58359,
+                                                        "fontFamily": "MaterialIcons"
+                                                    },
+                                                    "size": 32,
+                                                    "color": "white"
+                                                }
+                                            },
+                                            "label": {
+                                                "type": "text",
+                                                "args": {
+                                                    "text": "Logout"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

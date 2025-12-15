@@ -47,5 +47,16 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "welcomeTitle": "Welcome to TeWo",
+    "connectExisting": "Connect to Existing Business",
+    "createNew": "Create New Business",
+    "setupTemplateTitle": "Let's Setup your Business Template",
+    "grocery": "Grocery",
+    "restaurant": "Restaurant",
+    "vehicleRental": "Vehicles Rental",
+    "phonesWorkshop": "Phones Workshop",
+    "customBehavior": "Import a Custom Behavior",
+    "comingSoon": "Coming Soon",
+    "vehicleTypeTitle": "Which kind of Vehicles will you Rent?"
 }

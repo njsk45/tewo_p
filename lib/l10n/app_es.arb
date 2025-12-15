@@ -38,5 +38,16 @@
     "errorUserAliasMissing": "Error: Falta el alias de usuario.",
     "connectionFailed": "Conexión fallida. Por favor intenta de nuevo.",
     "connectionSuccessful": "¡Conexión Exitosa!",
-    "error": "Error: {error}"
+    "error": "Error: {error}",
+    "welcomeTitle": "Bienvenido a TeWo",
+    "connectExisting": "Conectar a Negocio Existente",
+    "createNew": "Crear Nuevo Negocio",
+    "setupTemplateTitle": "Configuremos tu Plantilla de Negocio",
+    "grocery": "Supermercado",
+    "restaurant": "Restaurante",
+    "vehicleRental": "Renta de Vehículos",
+    "phonesWorkshop": "Taller de Teléfonos",
+    "customBehavior": "Importar Comportamiento Personalizado",
+    "comingSoon": "Próximamente",
+    "vehicleTypeTitle": "¿Qué tipo de vehículos rentarás?"
 }

@@ -1,5 +1,5 @@
 # TeWo-P
-**TeWo-P** is a "Multi^2-PF" (Multiplatform-Multifunctional) Point of Sale (POS) system designed to run on various platforms and adapt easily to different user needs. It is an ambitious open-source alternative to traditional POS systems, featuring modern functionalities and a clean, simple design.
+**TeWo-P** is a "Database Mask Software" designed to run on various platforms and adapt easily to different user needs. It is an ambitious open-source alternative to traditional POS systems, featuring modern functionalities and a clean, simple design.
 
 # OBJECTIVES
 - **Multi-Platform & Multifunctional:** A POS system accessible on any device.

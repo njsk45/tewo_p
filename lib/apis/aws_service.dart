@@ -14,15 +14,22 @@ class AwsService {
   String _accessKey = '';
   String _secretKey = '';
   String _region = '';
+  String _endpointUrl = '';
 
   DynamoDB? _client;
 
   /// Initializes the AWS Service with credentials.
   /// You can pass them here or set them in the variables above.
-  void init({String? accessKey, String? secretKey, String? region}) {
+  void init({
+    String? accessKey,
+    String? secretKey,
+    String? region,
+    String? endpointUrl,
+  }) {
     if (accessKey != null) _accessKey = accessKey;
     if (secretKey != null) _secretKey = secretKey;
     if (region != null) _region = region;
+    if (endpointUrl != null) _endpointUrl = endpointUrl;
 
     if (_accessKey.isEmpty || _secretKey.isEmpty || _region.isEmpty) {
       print('Warning: AWS Credentials are not fully set.');
@@ -50,7 +57,11 @@ class AwsService {
       print('[DEBUG] No credentials available for provider');
     }
 
-    _client = DynamoDB(region: _region, credentialsProvider: provider);
+    _client = DynamoDB(
+      region: _region,
+      endpointUrl: _endpointUrl.isNotEmpty ? _endpointUrl : null,
+      credentialsProvider: provider,
+    );
   }
 
   /// Returns the configured DynamoDb client.

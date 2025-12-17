@@ -1,29 +1,34 @@
-import 'dart:io';
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:tewo_p/app/main_ui.dart';
-
-import 'package:window_manager/window_manager.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tewo_p/setup_interface/main_setup_ui.dart';
+import 'package:tewo_p/l10n/app_localizations.dart';
 
 void main() {
-  runZonedGuarded(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-        await windowManager.ensureInitialized();
-      }
+  runApp(const MainApp());
+}
 
-      FlutterError.onError = (FlutterErrorDetails details) {
-        FlutterError.presentError(details);
-      };
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
-      runApp(const MainApp());
-    },
-    (error, stack) async {
-      print('[CRITICAL] Uncaught error: $error');
-      print(stack);
-      exit(1);
-    },
-  );
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'TeWo',
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorSchemeSeed: Colors.deepPurple,
+        scaffoldBackgroundColor: const Color(0xFF121212),
+      ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('es'), Locale('en')],
+      home: const MainSetupPage(),
+    );
+  }
 }

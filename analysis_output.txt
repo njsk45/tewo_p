@@ -1,0 +1,18 @@
+Analyzing TeWo-P...                                             
+
+  error • Target of URI doesn't exist: 'package:flutter_gen/gen_l10n/app_localizations.dart' • lib/main.dart:3:8 • uri_does_not_exist
+  error • The values in a const list literal must be constants • lib/main.dart:18:9 • non_constant_list_element
+  error • Undefined name 'AppLocalizations' • lib/main.dart:18:9 • undefined_identifier
+  error • Undefined name 'AppLocalizations' • lib/main.dart:23:25 • undefined_identifier
+  error • Undefined name 'AppLocalizations' • lib/main.dart:35:34 • undefined_identifier
+  error • Undefined name 'AppLocalizations' • lib/main.dart:36:32 • undefined_identifier
+   info • Use 'const' for final variables initialized to a constant value • test_read.dart:4:3 • prefer_const_declarations
+   info • Don't invoke 'print' in production code • test_read.dart:7:3 • avoid_print
+   info • Don't invoke 'print' in production code • test_read.dart:9:5 • avoid_print
+   info • Don't invoke 'print' in production code • test_read.dart:10:5 • avoid_print
+   info • Don't invoke 'print' in production code • test_read.dart:12:5 • avoid_print
+   info • Don't invoke 'print' in production code • test_read.dart:17:7 • avoid_print
+   info • Don't invoke 'print' in production code • test_read.dart:19:9 • avoid_print
+   info • Don't invoke 'print' in production code • test_read.dart:22:7 • avoid_print
+
+14 issues found. (ran in 0.9s)

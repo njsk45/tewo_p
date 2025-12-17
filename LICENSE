@@ -1,21 +1,17 @@
-MIT License
+AGPLv3 License
+Copyright (C) 2025 Arzeuk
 
-Copyright (c) 2025 ArzeukInc
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Este programa es software libre: puedes redistribuirlo y/o modificarlo 
+bajo los términos de la Licencia Pública General Affero de GNU según 
+publicada por la Free Software Foundation, ya sea la versión 3 de la 
+Licencia, o (a tu elección) cualquier versión posterior.
+ 
+Este programa se distribuye con la esperanza de que sea útil,
+pero SIN NINGUNA GARANTÍA; incluso sin la garantía mercantil o 
+aptitud para un propósito determinado. 
+Consulte la Licencia Pública General Affero de GNU para más detalles.
+ 
+Usted debería haber recibido una copia de la Licencia Pública General
+Affero de GNU junto con este programa. Si no, consulte 
+<https://www.gnu.org/licenses/>.
+ 

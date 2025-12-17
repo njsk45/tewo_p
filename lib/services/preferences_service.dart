@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2025 Arzeuk
+ * * Este programa es software libre: puedes redistribuirlo y/o modificarlo 
+ * bajo los términos de la Licencia Pública General Affero de GNU según 
+ * publicada por la Free Software Foundation, ya sea la versión 3 de la 
+ * Licencia, o (a tu elección) cualquier versión posterior.
+ *
+ * Este programa se distribuye con la esperanza de que sea útil,
+ * pero SIN NINGUNA GARANTÍA; incluso sin la garantía mercantil o 
+ * aptitud para un propósito determinado. 
+ * Consulte la Licencia Pública General Affero de GNU para más detalles.
+ *
+ * Usted debería haber recibido una copia de la Licencia Pública General 
+ * Affero de GNU junto con este programa. Si no, consulte 
+ * <https://www.gnu.org/licenses/>.
+ */
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';

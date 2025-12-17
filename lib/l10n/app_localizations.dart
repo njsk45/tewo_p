@@ -133,6 +133,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Próximamente'**
   String get comingSoon;
+
+  /// No description provided for @languageDialogTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Idioma'**
+  String get languageDialogTitle;
 }
 
 class _AppLocalizationsDelegate

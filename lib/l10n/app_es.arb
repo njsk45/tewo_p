@@ -4,5 +4,6 @@
     "setupSubtitle": "Configuremos tu App",
     "existingBusiness": "Negocio Existente",
     "createBusiness": "Crear un Negocio",
-    "comingSoon": "Próximamente"
+    "comingSoon": "Próximamente",
+    "languageDialogTitle": "Idioma"
 }

@@ -25,4 +25,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get comingSoon => 'Próximamente';
+
+  @override
+  String get languageDialogTitle => 'Idioma';
 }
